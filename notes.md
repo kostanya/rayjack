@@ -261,9 +261,8 @@ Example:
 
 ```cpp
 const T& get_data() const { return data_; }
-```
-
 ^^^^^
+```
 
 means it will return a const reference to T (here data\_)
 
@@ -281,18 +280,17 @@ const T& tc = c.get_data() // OK.
 
 ```cpp
 const T& get_data() const { return data_; }
+                    ^^^^^
 ```
-
-^^^^^
 
 means the method will not modify any member variables of the class (unless the member is mutable).
 
 ```cpp
 void Class::get_data() const {
 
-this->data_ = ... // is not allowed here since get_data() is const (unless 'data_' is mutable)
+  this->data_ = ... // is not allowed here since get_data() is const (unless 'data_' is mutable)
 
-this->anything = ... // Not allowed unless the thing is 'mutable'
+  this->anything = ... // Not allowed unless the thing is 'mutable'
 
 }
 ```
