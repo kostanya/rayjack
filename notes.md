@@ -43,6 +43,8 @@ Make (or rather a Makefile) is a buildsystem - it drives the compiler and other 
 - **target\_compile\_options:** Adds options to the COMPILE\_OPTIONS or INTERFACE\_COMPILE\_OPTIONS target properties. These options are used when compiling the given \<target\>, which must have been created by a command such as add\_executable() or add\_library()
 - **find\_package:** When we need to add an external project as the dependency, we will use command find\_package in CMakeLists.txt to let CMake know where the header files and libraries are located, such that they can be found and linked properly later on. The CMake command find\_package has two modes (Config mode and Module mode) to find and load the CMake configuration of an external project.
 
+<br>
+
 **Variables:**
 
 - **CMAKE\_CXX\_STANDARD:** Specifies the C++ standard to be used for compilation (e.g., C++11, C++14, C++17).
