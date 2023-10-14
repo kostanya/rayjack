@@ -4,3 +4,4 @@ UseTab: Never
 IndentWidth: 4
 AccessModifierOffset: -4
 PointerAlignment: Left
+ColumnLimit: 110

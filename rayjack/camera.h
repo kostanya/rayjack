@@ -6,15 +6,14 @@
 
 class Camera {
 public:
-    float aspectRatio = 1.0f;  // Ratio of image width over height
-    int imageWidth = 100;      // Rendered image width in pixel count
+    int imageWidth = 100;      // Rendered image width in pixels
+    int imageHeight = 100;     // Rendered image height in pixels
     int samplesPerPixel = 100; // Count of random samples for each pixel
 
     void render(const Hittable& world);
 
 private:
     const int m_channel = 3; // Number of channels to be rendered
-    int m_imageHeight;       // Rendered image height
     point3 m_center;         // Camera center
     point3 m_startPixelLoc;  // Location of pixel [0, 0]
     vec3 m_pixelDeltaU;      // Offset to pixel to the right

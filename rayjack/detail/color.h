@@ -4,8 +4,7 @@
 #include "interval.h"
 #include "utils.h"
 
-void writeColor(uint8_t* imageData, int& idx, color pixelColor,
-                int samplesPerPixel) {
+void writeColor(uint8_t* imageData, int& idx, color pixelColor, int samplesPerPixel) {
     float r = pixelColor.r;
     float g = pixelColor.g;
     float b = pixelColor.b;

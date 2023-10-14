@@ -16,9 +16,7 @@ public:
 
     inline bool surrounds(float x) const { return (min < x && x < max); }
 
-    inline float clamp(float x) const {
-        return (std::min(std::max(x, min), max));
-    }
+    inline float clamp(float x) const { return (std::min(std::max(x, min), max)); }
 
     static const Interval empty, universe;
 };

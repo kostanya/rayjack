@@ -17,9 +17,7 @@ public:
     HittableList(std::shared_ptr<Hittable> object) { add(object); }
 
     inline void clear() { objects.clear(); }
-    inline void add(std::shared_ptr<Hittable> object) {
-        objects.push_back(object);
-    }
+    inline void add(std::shared_ptr<Hittable> object) { objects.push_back(object); }
 
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };

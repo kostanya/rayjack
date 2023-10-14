@@ -8,8 +8,8 @@ int main() {
     world.add(std::make_shared<Sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f));
 
     Camera cam;
-    cam.aspectRatio = 16.0f / 9.0f;
-    cam.imageWidth = 400;
+    cam.imageWidth = 600;
+    cam.imageHeight = 450;
     cam.samplesPerPixel = 100;
 
     cam.render(world);

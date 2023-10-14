@@ -10,8 +10,7 @@ private:
 
 public:
     Ray() {}
-    Ray(const point3& origin, const vec3& direction)
-        : m_origin(origin), m_direction(direction) {}
+    Ray(const point3& origin, const vec3& direction) : m_origin(origin), m_direction(direction) {}
 
     inline point3 origin() const { return m_origin; }
     inline vec3 direction() const { return m_direction; }
