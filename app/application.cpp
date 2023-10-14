@@ -8,9 +8,9 @@ int main() {
     world.add(std::make_shared<Sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f));
 
     Camera cam;
-    cam.imageWidth = 600;
-    cam.imageHeight = 450;
-    cam.samplesPerPixel = 100;
+    cam.imageWidth = 400;
+    cam.imageHeight = 225;
+    cam.samplesPerPixel = 10;
 
     cam.render(world);
 

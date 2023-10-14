@@ -1,5 +1,4 @@
-#ifndef SPHERE_H
-#define SPHERE_H
+#pragma once
 
 #include "hit_record.h"
 #include "hittable.h"
@@ -18,4 +17,4 @@ public:
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };
 
-#endif // SPHERE_H
+

@@ -1,5 +1,4 @@
-#ifndef UTILS
-#define UTILS
+#pragma once
 
 #include <glm/geometric.hpp>
 #include <glm/vec3.hpp>
@@ -23,4 +22,4 @@ inline float random_float() {
     return distribution(generator);
 }
 
-#endif
+

@@ -1,5 +1,4 @@
-#ifndef RAY_H
-#define RAY_H
+#pragma once
 
 #include "utils.h"
 
@@ -17,4 +16,3 @@ public:
     inline point3 at(float t) const { return m_origin + t * m_direction; }
 };
 
-#endif // RAY_H

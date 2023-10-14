@@ -1,10 +1,9 @@
-#ifndef COLOR_H
-#define COLOR_H
+#pragma once
 
 #include "interval.h"
 #include "utils.h"
 
-void writeColor(uint8_t* imageData, int& idx, color pixelColor, int samplesPerPixel) {
+void writeColor(uint8_t* imageData, int& idx, color pixelColor, const int samplesPerPixel) {
     float r = pixelColor.r;
     float g = pixelColor.g;
     float b = pixelColor.b;
@@ -22,4 +21,3 @@ void writeColor(uint8_t* imageData, int& idx, color pixelColor, int samplesPerPi
     imageData[idx++] = static_cast<uint8_t>(256 * intensity.clamp(b));
 }
 
-#endif // COLOR_H

@@ -1,5 +1,4 @@
-#ifndef HIT_RECORD_H
-#define HIT_RECORD_H
+#pragma once
 
 #include "ray.h"
 #include "utils.h"
@@ -19,4 +18,3 @@ public:
     }
 };
 
-#endif // HIT_RECORD_H

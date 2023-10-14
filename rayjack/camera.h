@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include "hittable.h"
 #include "utils.h"
@@ -25,4 +24,4 @@ private:
     color rayColor(const Ray& r, const Hittable& world) const;
 };
 
-#endif // CAMERA_H
+

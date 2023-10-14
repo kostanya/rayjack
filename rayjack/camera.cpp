@@ -84,7 +84,7 @@ vec3 Camera::pixelSampleSquare() const {
 
 color Camera::rayColor(const Ray& r, const Hittable& world) const {
     HitRecord rec;
-    if (world.hit(r, Interval{0, infinity}, rec)) {
+    if (world.hit(r, Interval(0, infinity), rec)) {
         return 0.5f * (rec.normal + color(1.0f, 1.0f, 1.0f));
     }
 

@@ -1,5 +1,4 @@
-#ifndef HITTABLE_LIST_H
-#define HITTABLE_LIST_H
+#pragma once
 
 #include "hit_record.h"
 #include "hittable.h"
@@ -22,4 +21,3 @@ public:
     bool hit(const Ray& r, Interval rayT, HitRecord& rec) const override;
 };
 
-#endif // HITTABLE_LIST_H
