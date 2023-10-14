@@ -21,7 +21,7 @@ void Camera::render(const Hittable& world) {
             color pixelColor(0.0f, 0.0f, 0.0f);
             for (int sample = 0; sample < samplesPerPixel; ++sample) {
                 Ray r = getRay(i, j);
-                pixelColor += rayColor(r, world);
+                pixelColor += rayColor(r, maxRayBounce, world);
             }
             writeColor(imageData.get(), idx, pixelColor, samplesPerPixel);
         }
@@ -30,7 +30,7 @@ void Camera::render(const Hittable& world) {
     std::clog << "\rDone.\n";
 
     // if channel is 4, you can use alpha channel in png
-    stbi_write_png("png_test.png", imageWidth, imageHeight, m_channel, imageData.get(),
+    stbi_write_png("render_result.png", imageWidth, imageHeight, m_channel, imageData.get(),
                    imageWidth * m_channel);
 
     // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.
@@ -76,16 +76,20 @@ Ray Camera::getRay(int i, int j) const {
 
 vec3 Camera::pixelSampleSquare() const {
     // Return a random point in the square surrounding pixel at the origin
-    float px = -0.5f + random_float();
-    float py = -0.5f + random_float();
+    float px = -0.5f + randomFloat();
+    float py = -0.5f + randomFloat();
 
     return (px * m_pixelDeltaU) + (py * m_pixelDeltaV);
 }
 
-color Camera::rayColor(const Ray& r, const Hittable& world) const {
+color Camera::rayColor(const Ray& r, int bounceLeft, const Hittable& world) const {
+    if (bounceLeft == 0)
+        return color(0.0f, 0.0f, 0.0f);
+
     HitRecord rec;
-    if (world.hit(r, Interval(0, infinity), rec)) {
-        return 0.5f * (rec.normal + color(1.0f, 1.0f, 1.0f));
+    if (world.hit(r, Interval(0.001, infinity), rec)) {
+        vec3 direction = randomOnHemisphere(rec.normal);
+        return 0.5f * rayColor(Ray(rec.p, direction), --bounceLeft, world);
     }
 
     vec3 unitDirection = glm::normalize(r.direction());

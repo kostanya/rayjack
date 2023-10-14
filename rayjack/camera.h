@@ -8,6 +8,7 @@ public:
     int imageWidth = 100;      // Rendered image width in pixels
     int imageHeight = 100;     // Rendered image height in pixels
     int samplesPerPixel = 100; // Count of random samples for each pixel
+    int maxRayBounce = 10;     // Max number of ray bounces into scene
 
     void render(const Hittable& world);
 
@@ -21,7 +22,5 @@ private:
     void initialize();
     Ray getRay(int i, int j) const;
     vec3 pixelSampleSquare() const;
-    color rayColor(const Ray& r, const Hittable& world) const;
+    color rayColor(const Ray& r, int bounceLeft, const Hittable& world) const;
 };
-
-

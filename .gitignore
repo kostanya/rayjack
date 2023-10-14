@@ -42,6 +42,7 @@ _deps
 
 # local build(s)
 build/
+out/
 
 /.vs
 /.vscode
