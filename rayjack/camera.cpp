@@ -1,6 +1,7 @@
 #include "camera.h"
 #include "color.h"
 #include "hit_record.h"
+#include "material.h"
 
 #include "stb_image_write.h"
 
@@ -88,8 +89,12 @@ color Camera::rayColor(const Ray& r, int bounceLeft, const Hittable& world) cons
 
     HitRecord rec;
     if (world.hit(r, Interval(0.001, infinity), rec)) {
-        vec3 direction = rec.normal + randomUnitVector();
-        return 0.5f * rayColor(Ray(rec.p, direction), bounceLeft - 1, world);
+        Ray scattered;
+        color attenuation;
+        if (rec.mat->scatter(r, rec, attenuation, scattered))
+            return attenuation * rayColor(scattered, bounceLeft - 1, world);
+
+        return color(0.0f, 0.0f, 0.0f);
     }
 
     vec3 unitDirection = glm::normalize(r.direction());

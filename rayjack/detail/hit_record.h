@@ -3,10 +3,16 @@
 #include "ray.h"
 #include "utils.h"
 
+#include <memory>
+
+// To prevent circular dependency
+class Material;
+
 class HitRecord {
 public:
     point3 p;
     vec3 normal;
+    std::shared_ptr<Material> mat;
     float t;
     bool frontFace;
 
@@ -17,4 +23,3 @@ public:
         normal = frontFace ? outwardNormal : -outwardNormal;
     }
 };
-

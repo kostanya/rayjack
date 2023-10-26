@@ -39,3 +39,10 @@ inline vec3 randomOnHemisphere(const vec3& normal) {
     else
         return -onUnitSphere;
 }
+
+inline bool isNearZero(const vec3& v) {
+    auto s = 1e-8;
+    return (std::fabs(v.x) < s) && (std::fabs(v.y) < s) && (std::fabs(v.z) < s);
+}
+
+inline vec3 reflect(const vec3& v, const vec3& n) { return v - 2 * glm::dot(v, n) * n; }
