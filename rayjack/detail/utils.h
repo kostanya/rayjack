@@ -28,7 +28,10 @@ inline vec3 randomVec3() { return vec3(randomFloat(), randomFloat(), randomFloat
 inline vec3 randomVec3(float min, float max) {
     return vec3(randomFloat(min, max), randomFloat(min, max), randomFloat(min, max));
 }
-inline vec3 randomOnUnitSphere() { return glm::sphericalRand(1.0f); }
+
+inline vec3 randomOnUnitSphere() { return glm::sphericalRand(1.0f); } // Random unit vector
+inline vec3 randomUnitVector() { return randomOnUnitSphere(); }
+
 inline vec3 randomOnHemisphere(const vec3& normal) {
     vec3 onUnitSphere = randomOnUnitSphere();
     if (glm::dot(onUnitSphere, normal) > 0.0f) // In the same hemisphere as the normal

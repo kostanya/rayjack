@@ -88,8 +88,8 @@ color Camera::rayColor(const Ray& r, int bounceLeft, const Hittable& world) cons
 
     HitRecord rec;
     if (world.hit(r, Interval(0.001, infinity), rec)) {
-        vec3 direction = randomOnHemisphere(rec.normal);
-        return 0.5f * rayColor(Ray(rec.p, direction), --bounceLeft, world);
+        vec3 direction = rec.normal + randomUnitVector();
+        return 0.5f * rayColor(Ray(rec.p, direction), bounceLeft - 1, world);
     }
 
     vec3 unitDirection = glm::normalize(r.direction());
