@@ -43,23 +43,30 @@ void Camera::initialize() {
     imageWidth = (imageWidth < 1) ? 1 : imageWidth;
     imageHeight = (imageHeight < 1) ? 1 : imageHeight;
 
-    m_center = point3(0.0f, 0.0f, 0.0f);
+    m_center = lookFrom;
 
     // Determine viewport dimensions
-    float focalLength = 1.0f;
-    float viewportHeight = 2.0f;
+    float focalLength = glm::length(lookFrom - lookAt);
+    float theta = degreesToRadians(verticalFieldOfView);
+    float h = std::tan(theta / 2);
+    float viewportHeight = 2.0f * h * focalLength;
     float viewportWidth = viewportHeight * imageWidth / imageHeight;
 
+    // Calculate the u,v,w unit basis vectors for the camera coordinate frame
+    w = glm::normalize(lookFrom - lookAt);
+    u = glm::normalize(glm::cross(viewUp, w));
+    v = glm::cross(w, u);
+
     // Calculate the vectors across the horizontal and down the vertical viewport edges
-    vec3 viewportU = vec3(viewportWidth, 0.0f, 0.0f);
-    vec3 viewportV = vec3(0.0f, -viewportHeight, 0.0f);
+    vec3 viewportU = viewportWidth * u;
+    vec3 viewportV = viewportHeight * -v;
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel
     m_pixelDeltaU = viewportU / static_cast<float>(imageWidth);
     m_pixelDeltaV = viewportV / static_cast<float>(imageHeight);
 
     // Calculate the location of the upper left pixel
-    point3 viewportUpperLeft = m_center - vec3(0.0f, 0.0f, focalLength) - viewportU / 2.0f - viewportV / 2.0f;
+    point3 viewportUpperLeft = m_center - (w * focalLength) - viewportU / 2.0f - viewportV / 2.0f;
     m_startPixelLoc = viewportUpperLeft + 0.5f * (m_pixelDeltaU + m_pixelDeltaV);
 }
 
