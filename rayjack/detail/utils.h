@@ -48,3 +48,10 @@ inline bool isNearZero(const vec3& v) {
 
 // n: normal vector
 inline vec3 reflect(const vec3& v, const vec3& n) { return v - 2 * glm::dot(v, n) * n; }
+
+inline vec3 refract(const vec3& uv, const vec3& n, float refractionRatio) {
+    float cosTheta = std::fmin(glm::dot(-uv, n), 1.0f);
+    vec3 rOutPerp = refractionRatio * (uv + cosTheta * n);
+    vec3 rOutParallel = -std::sqrt(std::fabs(1.0f - glm::dot(rOutPerp, rOutPerp))) * n;
+    return rOutPerp + rOutParallel;
+}

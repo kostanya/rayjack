@@ -16,7 +16,7 @@ public:
     float t;
     bool frontFace;
 
-    // sets the hit record normal vector
+    // Set the hit record's normal vector
     // NOTE: outwardNormal is assumed to have unit length
     inline void setFaceNormal(const Ray& r, const vec3& outwardNormal) {
         frontFace = glm::dot(r.direction(), outwardNormal) < 0.0f;
