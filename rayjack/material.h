@@ -73,7 +73,7 @@ public:
 
         bool cannotRefract = refractionRatio * sinTheta > 1.0f;
         vec3 direction;
-        if (cannotRefract)
+        if (cannotRefract || reflectance(cosTheta, refractionRatio) > randomFloat())
             direction = reflect(rayInUnitDirection, rec.normal);
         else
             direction = refract(rayInUnitDirection, rec.normal, refractionRatio);
@@ -85,4 +85,11 @@ public:
 
 private:
     float m_refractiveIndex; // Refractive index
+
+    // In reality, reflectivity varies with angle. Schlick's approximation addresses this issue.
+    static float reflectance(float cosine, float refIdx) {
+        float r0 = (1.0f - refIdx) / (1.0f + refIdx);
+        r0 *= r0;
+        return r0 + (1.0f - r0) * static_cast<float>(std::pow((1.0f - cosine), 5));
+    }
 };
