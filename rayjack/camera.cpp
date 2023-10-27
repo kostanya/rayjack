@@ -11,7 +11,7 @@
 void Camera::render(const Hittable& world) {
     initialize();
 
-    // create image data array in heap and point to it
+    // Create image data array in heap and point to it
     std::unique_ptr<uint8_t[]> imageData = std::make_unique<uint8_t[]>(imageWidth * imageHeight * 3);
 
     // Render
@@ -30,7 +30,7 @@ void Camera::render(const Hittable& world) {
 
     std::clog << "\rDone.\n";
 
-    // if channel is 4, you can use alpha channel in png
+    // If channel is 4, you can use alpha channel in png
     stbi_write_png("render_result.png", imageWidth, imageHeight, m_channel, imageData.get(),
                    imageWidth * m_channel);
 
@@ -97,6 +97,7 @@ color Camera::rayColor(const Ray& r, int bounceLeft, const Hittable& world) cons
         return color(0.0f, 0.0f, 0.0f);
     }
 
+    // Ray did not hit anything (Ray coming into the camera comes from infinity / sky)
     vec3 unitDirection = glm::normalize(r.direction());
     float a = 0.5f * (unitDirection.y + 1.0f);
     return (1.0f - a) * color(1.0f, 1.0f, 1.0f) + a * color(0.5f, 0.7f, 1.0f);
