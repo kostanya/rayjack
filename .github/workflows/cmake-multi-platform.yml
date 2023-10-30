@@ -2,13 +2,15 @@
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
 name: CMake on multiple platforms
 
-on:[push]
-  #push:
-    #branches: [ "main" ]
-  #pull_request:
-    #branches: [ "main" ]
-    ##types: [opened, synchronize] # Trigger on PR open and synchronize events (push to the branch of the PR)
-
+on:
+  push:
+    branches: 
+    - 'main' 
+    - 'feature/**'
+  pull_request:
+    types: [opened, synchronize, reopened] 
+    branches: [ "main" ]
+    
 jobs:
   build:
     runs-on: ${{ matrix.os }}
