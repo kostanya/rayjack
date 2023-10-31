@@ -41,7 +41,11 @@ target_include_directories(rayjack-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/extern
 target_include_directories(rayjack-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/glm)     # glm
 target_include_directories(rayjack-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})                 # rayjack 
 
- target_compile_options(rayjack-app PRIVATE -Wall -Wconversion -Wsign-conversion -pedantic-errors)
+if(NOT MSVC)
+    target_compile_options(rayjack-app PRIVATE -Wall -Wextra -Wconversion -Wsign-conversion -pedantic-errors)
+else()
+    target_compile_options(rayjack-app PRIVATE)
+endif()
 
 target_compile_options(rayjack-app PRIVATE
     $<$<CONFIG:Debug>:-O0>
