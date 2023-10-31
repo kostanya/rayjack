@@ -11,11 +11,7 @@ on:
     types: [opened, synchronize, reopened] 
     branches: [ "main" ]
     
-jobs:
-  install:
-  # clone submodules
-    runs-on: git submodule update --init --recursive
-  
+jobs:  
   build:
     runs-on: ${{ matrix.os }}
 
@@ -56,6 +52,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Initialize and update submodules
+      run: |
+        git submodule init
+        git submodule update --recursive
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
