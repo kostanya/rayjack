@@ -12,6 +12,10 @@ on:
     branches: [ "main" ]
     
 jobs:
+  install:
+  # clone submodules
+    runs-on: git submodule update --init --recursive
+  
   build:
     runs-on: ${{ matrix.os }}
 
@@ -66,7 +70,7 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }} 
-        -DGLM_INCLUDE_DIR="${{ github.workspace }}/../external/glm" ..
+        -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/glm" ..
         -DCMAKE_C_STANDARD=11
         -DCMAKE_CXX_STANDARD=17
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
