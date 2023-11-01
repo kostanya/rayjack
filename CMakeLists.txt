@@ -43,8 +43,6 @@ target_include_directories(rayjack-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})     
 
 if(NOT MSVC)
     target_compile_options(rayjack-app PRIVATE -Wall -Wextra -Wconversion -Wsign-conversion -pedantic-errors)
-else()
-    target_compile_options(rayjack-app PRIVATE)
 endif()
 
 target_compile_options(rayjack-app PRIVATE
