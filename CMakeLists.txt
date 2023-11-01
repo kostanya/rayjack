@@ -21,6 +21,7 @@ set (RAYJACK_LIB_SOURCES
   rayjack/hittable_list.h  
   rayjack/hittable_list.cpp
   rayjack/material.h
+  rayjack/material.cpp
   rayjack/sphere.h
   rayjack/sphere.cpp  
 

@@ -13,7 +13,7 @@ public:
     float verticalFieldOfView = 90;              // Vertical view angle (field of view)
     point3 lookFrom = point3(0.0f, 0.0f, -1.0f); // Point camera is looking from
     point3 lookAt = point3(0.0f, 0.0f, 0.0f);    // Point camera is looking at
-    vec3 viewUp = vec3(0.0f, 1.0f, 0.0f);        // Camera-relative "up" direction
+    vec3 viewUp = vec3(0.0f, 1.0f, 0.0f);        // Camera-relative (Global) "up" direction
     vec3 u, v, w;                                // Camera frame basis vectors
 
     void render(const Hittable& world);
