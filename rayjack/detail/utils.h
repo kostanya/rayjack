@@ -10,7 +10,7 @@ using vec3 = glm::vec3;
 using color = glm::vec3;
 using point3 = glm::vec3;
 
-static std::uniform_real_distribution<float> distribution_0_0__1_0(0.0, 1.0);
+static std::uniform_real_distribution<float> distribution_0_0__1_0(0.0f, 1.0f);
 static std::mt19937 generator;
 
 /* CONSTANTS */
@@ -40,6 +40,8 @@ inline vec3 randomOnHemisphere(const vec3& normal) {
     else
         return -onUnitSphere;
 }
+
+inline vec3 randomInUnitDisk() { return vec3(glm::diskRand(1.0f), 0.0f); }
 
 inline bool isNearZero(const vec3& v) {
     auto s = 1e-8;

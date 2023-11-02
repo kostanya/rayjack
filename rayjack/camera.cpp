@@ -46,10 +46,9 @@ void Camera::initialize() {
     m_center = lookFrom;
 
     // Determine viewport dimensions
-    float focalLength = glm::length(lookFrom - lookAt);
     float theta = degreesToRadians(verticalFieldOfView);
     float h = std::tan(theta / 2);
-    float viewportHeight = 2.0f * h * focalLength;
+    float viewportHeight = 2.0f * h * focusDist;
     float viewportWidth = viewportHeight * imageWidth / imageHeight;
 
     // Calculate the u,v,w unit basis vectors for the camera coordinate frame
@@ -66,17 +65,23 @@ void Camera::initialize() {
     m_pixelDeltaV = viewportV / static_cast<float>(imageHeight);
 
     // Calculate the location of the upper left pixel
-    point3 viewportUpperLeft = m_center - (w * focalLength) - viewportU / 2.0f - viewportV / 2.0f;
+    point3 viewportUpperLeft = m_center - (w * focusDist) - viewportU / 2.0f - viewportV / 2.0f;
     m_startPixelLoc = viewportUpperLeft + 0.5f * (m_pixelDeltaU + m_pixelDeltaV);
+
+    // Calculate the camera defocus disk basis vectors
+    float defocusRadius = focusDist * std::tan(degreesToRadians(defocusAngle / 2.0f));
+    m_defocusDiskU = u * defocusRadius;
+    m_defocusDiskV = v * defocusRadius;
 }
 
 Ray Camera::getRay(int i, int j) const {
-    // Get randomly sampled camera ray for the pixel at location [i, j]
+    // Get a randomly sampled camera ray for the pixel at location [i,j],
+    // originating from the camera defocus disk
     point3 pixelCenter =
         m_startPixelLoc + (static_cast<float>(i) * m_pixelDeltaU) + (static_cast<float>(j) * m_pixelDeltaV);
     point3 pixelSample = pixelCenter + pixelSampleSquare();
 
-    point3 rayOrigin = m_center;
+    point3 rayOrigin = (defocusAngle <= 0.0f) ? m_center : defocusDiskSample();
     vec3 rayDirection = pixelSample - rayOrigin;
 
     return Ray(rayOrigin, rayDirection);
@@ -88,6 +93,12 @@ vec3 Camera::pixelSampleSquare() const {
     float py = -0.5f + randomFloat();
 
     return (px * m_pixelDeltaU) + (py * m_pixelDeltaV);
+}
+
+point3 Camera::defocusDiskSample() const {
+    // Returns a random point in the camera defocus disk.
+    vec3 p = randomInUnitDisk();
+    return m_center + (p.x * m_defocusDiskU) + (p.y * m_defocusDiskV);
 }
 
 color Camera::rayColor(const Ray& r, int bounceLeft, const Hittable& world) const {

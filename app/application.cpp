@@ -22,12 +22,14 @@ int main() {
     cam.imageHeight = 225;
     cam.samplesPerPixel = 100;
     cam.maxRayBounce = 50;
-    cam.verticalFieldOfView = 90;
 
     cam.verticalFieldOfView = 20;
     cam.lookFrom = point3(-2, 2, 1);
     cam.lookAt = point3(0, 0, -1);
     cam.viewUp = vec3(0, 1, 0);
+
+    cam.defocusAngle = 10.0f;
+    cam.focusDist = 3.4f;
 
     cam.render(world);
 

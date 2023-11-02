@@ -16,6 +16,9 @@ public:
     vec3 viewUp = vec3(0.0f, 1.0f, 0.0f);        // Camera-relative (Global) "up" direction
     vec3 u, v, w;                                // Camera frame basis vectors
 
+    float defocusAngle = 0.0f; // Variation angle of rays through each pixel
+    float focusDist = 10.0f;   // Focus plane - camera center (lookFrom)
+
     void render(const Hittable& world);
 
 private:
@@ -24,9 +27,12 @@ private:
     point3 m_startPixelLoc;  // Location of pixel [0, 0]
     vec3 m_pixelDeltaU;      // Offset to pixel to the right
     vec3 m_pixelDeltaV;      // Offset to pixel below
+    vec3 m_defocusDiskU;     // Defocus disk horizontal radius
+    vec3 m_defocusDiskV;     // Defocus disk vertical radius
 
     void initialize();
     Ray getRay(int i, int j) const;
     vec3 pixelSampleSquare() const;
+    point3 defocusDiskSample() const;
     color rayColor(const Ray& r, int bounceLeft, const Hittable& world) const;
 };
