@@ -70,6 +70,7 @@ target_compile_options(rayjack-app PRIVATE
 )
 
 target_link_libraries(rayjack-app rayjack-lib )
+find_package(Catch2 REQUIRED)
 target_link_libraries(rayjack-test PRIVATE Catch2::Catch2WithMain)
 
 enable_testing()
