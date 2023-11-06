@@ -41,6 +41,7 @@ set(RAYJACK_TEST_SOURCES
     tests/test-main.cpp
 )
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/catch2)
 add_executable(rayjack-test ${RAYJACK_TEST_SOURCES})
 
 target_include_directories(rayjack-lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/rayjack)
@@ -70,7 +71,6 @@ target_compile_options(rayjack-app PRIVATE
 )
 
 target_link_libraries(rayjack-app rayjack-lib )
-find_package(Catch2 REQUIRED)
 target_link_libraries(rayjack-test PRIVATE Catch2::Catch2WithMain)
 
 enable_testing()
