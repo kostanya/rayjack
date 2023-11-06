@@ -41,7 +41,7 @@ set(RAYJACK_TEST_SOURCES
     tests/test-main.cpp
 )
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/catch2)
 add_executable(rayjack-test ${RAYJACK_TEST_SOURCES})
 
 target_include_directories(rayjack-lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/rayjack)
