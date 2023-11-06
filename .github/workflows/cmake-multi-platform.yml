@@ -59,7 +59,7 @@ jobs:
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }} 
         -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/glm"
-        -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/catch2"
+        -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/Catch2"
         -DCMAKE_C_STANDARD=11
         -DCMAKE_CXX_STANDARD=17
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
