@@ -1,4 +1,4 @@
-#include <Catch2/catch_test_macros.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include "ray.h"
 
 TEST_CASE("Test Ray Class") {
