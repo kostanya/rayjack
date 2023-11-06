@@ -73,4 +73,4 @@ target_link_libraries(rayjack-app rayjack-lib )
 target_link_libraries(rayjack-test PRIVATE Catch2::Catch2WithMain)
 
 enable_testing()
-add_test(NAME RayjackTests COMMAND rayjack-tests)
+add_test(NAME RayjackTests COMMAND rayjack-test)
