@@ -5,6 +5,7 @@ on:
     branches: 
      - 'main' 
      - 'feature/**'
+     - 'test'
   pull_request:
     types: [opened, synchronize, reopened] 
     branches: [ "main" ]
