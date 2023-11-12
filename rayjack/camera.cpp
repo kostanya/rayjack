@@ -15,7 +15,6 @@ void Camera::render(const Hittable& world) {
     std::unique_ptr<uint8_t[]> imageData = std::make_unique<uint8_t[]>(imageWidth * imageHeight * 3);
 
     // Render
-    int idx = 0;
     for (int j = 0; j < imageHeight; ++j) {
         std::clog << "\rScanlines remaining: " << (imageHeight - j) << ' ' << std::flush;
         for (int i = 0; i < imageWidth; ++i) {
@@ -24,14 +23,14 @@ void Camera::render(const Hittable& world) {
                 Ray r = getRay(i, j);
                 pixelColor += rayColor(r, maxRayBounce, world);
             }
-            writeColor(imageData.get(), idx, pixelColor, samplesPerPixel);
+            writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixelColor, samplesPerPixel);
         }
     }
 
     std::clog << "\rDone.\n";
 
     // If channel is 4, you can use alpha channel in png
-    stbi_write_png("render_result.png", imageWidth, imageHeight, m_channel, imageData.get(),
+    stbi_write_png("render_result_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
                    imageWidth * m_channel);
 
     // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.

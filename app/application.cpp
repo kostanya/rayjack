@@ -23,7 +23,7 @@ int main() {
     cam.samplesPerPixel = 100;
     cam.maxRayBounce = 50;
 
-    cam.verticalFieldOfView = 20;
+    cam.verticalFieldOfView = 45;
     cam.lookFrom = point3(-2, 2, 1);
     cam.lookAt = point3(0, 0, -1);
     cam.viewUp = vec3(0, 1, 0);
