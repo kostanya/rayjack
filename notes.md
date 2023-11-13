@@ -604,3 +604,33 @@ _Note1:_ This works well if none of the variables of the object are defined in t
 _Note2:_ [C++](https://www.geeksforgeeks.org/c-plus-plus/) compiler implicitly creates a [copy constructor](https://www.geeksforgeeks.org/copy-constructor-in-cpp/) and [overloads assignment operator](https://www.geeksforgeeks.org/assignment-operator-overloading-in-c/) in order to perform shallow copy at compile time.
 
 **Deep Copy:** A deep copy of an object duplicates all of its internal elements, creating independent copies. Changes made to the copied object do not affect the original object, and vice versa. Deep copies require manually copying each element, which can be less memory-efficient but ensures data isolation.
+
+## noexcept specifier
+
+```cpp
+void f() noexcept; // the function f() does not throw
+``` 
+Specifies whether a function could throw exceptions. 
+
+One of the uses of the constant expression is (along with the noexcept operator) to define function templates that declare noexcept for some types but not others.
+
+Note that a noexcept specification on a function is not a compile-time check; it is merely a method for a programmer to inform the compiler whether or not a function should throw exceptions. **The compiler can use this information to enable certain optimizations** on non-throwing functions as well as enable the noexcept operator, which can check at compile time if a particular expression is declared to throw any exceptions. For example, containers such as std::vector will move their elements if the elements' move constructor is noexcept, and copy otherwise (unless the copy constructor is not accessible, but a potentially throwing move constructor is, in which case the strong exception guarantee is waived).
+
+## explicit keyword
+```explicit``` keyword in C++ is used to mark constructors to not implicitly convert types in C++.
+
+For instance,
+```cpp
+Apple obj(3.0);
+
+(obj == 3.0) // returns true
+```
+
+3.0 is implicitly converted to an Apple object. We can prevent this by simply adding an explicit specifier to the constructor.
+
+
+
+
+
+
+
