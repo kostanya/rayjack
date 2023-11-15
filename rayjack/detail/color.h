@@ -11,10 +11,17 @@ void writeColor(uint8_t* imageData, int idx, color pixelColor, const int samples
     float b = pixelColor.b;
 
     // Divide the color by the number of samples
-    float scale = 1.0f / samplesPerPixel;
-    r *= scale;
-    g *= scale;
-    b *= scale;
+    if (samplesPerPixel==0){
+        r = 0;
+        g = 0;
+        b = 0;
+    }else{
+        float scale = 1.0f / samplesPerPixel;
+        r *= scale;
+        g *= scale;
+        b *= scale;
+        }
+    
 
     // Apply the linear to gamma transform
     r = linearToGamma(r);

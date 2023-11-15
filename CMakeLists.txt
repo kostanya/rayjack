@@ -37,6 +37,11 @@ set (RAYJACK_APP_SOURCES
 add_executable(rayjack-app ${RAYJACK_APP_SOURCES})
 
 set(RAYJACK_TEST_SOURCES
+    tests/test_sphere.cpp
+    tests/test_hittable_list.cpp
+    tests/test_hit_record.cpp
+    tests/test_interval.cpp
+    tests/test_color.cpp
     tests/test_ray.cpp
     tests/test-main.cpp
 )
