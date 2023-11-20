@@ -89,3 +89,15 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: ctest --build-config ${{ matrix.build_type }}
+
+    - name: Collect Code Coverage
+      if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: |
+        ctest -j $(nproc) --build-config ${{ matrix.build_type }}
+        lcov --capture --directory . --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --list coverage.info
+        # Uses lcov to collect coverage data and create a coverage.info file.
+        # Removes system-related paths from the coverage report using lcov.
+        # Displays the coverage information.
