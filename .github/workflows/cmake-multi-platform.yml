@@ -99,7 +99,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y lcov
         fi
-
+        
+    - name: Install LLVM tools
+      if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y llvm
+    
     - name: Check Clang version and coverage tools
       if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
       run: |
