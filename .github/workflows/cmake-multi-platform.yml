@@ -100,19 +100,20 @@ jobs:
           sudo apt-get install -y lcov
         fi
         
-    - name: Install LLVM tools
+    - name: Install LLVM tools with llvm-cov
       if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
       run: |
         sudo apt-get update
-        sudo apt-get install -y llvm llvm-dev
-        sudo apt-get install -y llvm-cov
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy main"
+        sudo apt-get update
+        sudo apt-get install -y llvm llvm-dev llvm-cov
     
     - name: Find llvm-cov
       run: which llvm-cov
 
     - name: Search for llvm-cov package
       run: apt-cache search llvm-cov
-
 
     - name: Check Clang version and coverage tools
       if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
