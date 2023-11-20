@@ -105,7 +105,15 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y llvm llvm-dev
+        sudo apt-get install -y llvm-cov
     
+    - name: Find llvm-cov
+      run: which llvm-cov
+
+    - name: Search for llvm-cov package
+      run: apt-cache search llvm-cov
+
+
     - name: Check Clang version and coverage tools
       if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
       run: |
