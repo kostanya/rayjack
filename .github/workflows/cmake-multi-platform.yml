@@ -110,9 +110,11 @@ jobs:
         sudo apt-get install -y llvm llvm-dev llvm-cov
     
     - name: Find llvm-cov
+      if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
       run: which llvm-cov
 
     - name: Search for llvm-cov package
+      if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
       run: apt-cache search llvm-cov
 
     - name: Check Clang version and coverage tools
