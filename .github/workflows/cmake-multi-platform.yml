@@ -99,7 +99,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y lcov
         fi
-          
+
+    - name: Check Clang version and coverage tools
+      if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
+      run: |
+        clang --version  # Check the installed Clang version
+        llvm-cov --version  # Check llvm-cov version
+
+        # Check if llvm-cov supports code coverage functionality
+        llvm-cov help >/dev/null 2>&1 || { echo "llvm-cov not found or does not support code coverage"; exit 1; }
+        clang --help | grep -- '-fprofile-arcs\|-ftest-coverage'
+        
     - name: Collect Code Coverage
       if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
