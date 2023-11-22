@@ -42,23 +42,5 @@ TEST_CASE("Write color to image data", "[writeColor]") {
         REQUIRE(imageData[2] == 0);
     }
 
-/*
-    SECTION("Test writing color for maximum samples per pixel") {
-        
-        uint8_t imageData[ImageDataSize] = {0};
-        color sampleColor = {0.5f, 0.5f, 0.5f}; // Gray color
-        const int samplePerPixel = INT_MAX;
-        writeColor(imageData, 0, sampleColor, samplePerPixel);
-
-        // As samples are extremely high, the color components should approach their original values
-        INFO("Actual value of imageData[0]: " << static_cast<int>(imageData[0]));
-        INFO("Actual value of imageData[1]: " << static_cast<int>(imageData[1]));
-        INFO("Actual value of imageData[2]: " << static_cast<int>(imageData[2]));
-
-        REQUIRE(imageData[0] == Approx(128).margin(1));
-        REQUIRE(imageData[1] == Approx(128).margin(1));
-        REQUIRE(imageData[2] == Approx(128).margin(1));
-    }
-*/
 }
 

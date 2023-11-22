@@ -71,6 +71,21 @@ target_include_directories(rayjack-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(NOT MSVC)
     target_compile_options(rayjack-app PRIVATE -Wall -Wextra -Wconversion -Wsign-conversion -pedantic-errors)
+
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+      target_compile_options(rayjack-lib PRIVATE --coverage)
+      target_compile_options(rayjack-test PRIVATE --coverage)
+
+      target_link_options(rayjack-lib PRIVATE --coverage)
+      target_link_options(rayjack-test PRIVATE --coverage)
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "GCC")
+      target_compile_options(rayjack-lib PRIVATE -fprofile-arcs -ftest-coverage)
+      target_compile_options(rayjack-test PRIVATE -fprofile-arcs -ftest-coverage)
+
+      target_link_options(rayjack-lib PRIVATE -fprofile-arcs -ftest-coverage)
+      target_link_options(rayjack-test PRIVATE -fprofile-arcs -ftest-coverage)
+    endif()
 endif()
 
 target_compile_options(rayjack-app PRIVATE
@@ -78,7 +93,7 @@ target_compile_options(rayjack-app PRIVATE
     $<$<CONFIG:Release>:-O3>
 )
 
-target_link_libraries(rayjack-app rayjack-lib )
+target_link_libraries(rayjack-app rayjack-lib)
 target_link_libraries(rayjack-test PRIVATE Catch2::Catch2WithMain)
 
 enable_testing()
