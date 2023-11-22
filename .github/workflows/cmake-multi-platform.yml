@@ -19,8 +19,8 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        build_type: [Debug, Release]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        build_type: [Debug]
         c_compiler: [gcc, clang, cl]
         include:
           - os: windows-latest
@@ -38,8 +38,16 @@ jobs:
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
+          - os: macos-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: macos-latest
+            c_compiler: clang
+            cpp_compiler: clang++
         exclude:
           - os: ubuntu-latest
+            c_compiler: cl
+          - os: macos-latest
             c_compiler: cl
             
     steps:
@@ -81,3 +89,43 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: ctest --build-config ${{ matrix.build_type }}
+
+    - name: Install lcov (for code coverage)
+      if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
+      run: |
+        if [ "$(uname)" = "Darwin" ]; then     # macOs
+          brew install lcov
+        else                                   # Ubuntu
+          sudo apt-get update
+          sudo apt-get install -y lcov
+        fi
+        
+    - name: Install LLVM tools
+      if: matrix.os == 'ubuntu-latest' && matrix.c_compiler != 'cl'
+      run: |
+        sudo apt-get update
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-14 main"
+        sudo apt-get update
+        sudo apt-get install -y llvm llvm-dev
+
+    - name: Collect Code Coverage (for Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: |
+        ctest -j $(nproc) --build-config ${{ matrix.build_type }}
+        lcov --capture --directory . --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --list coverage.info
+        # Uses lcov to collect coverage data and create a coverage.info file.
+        # Removes system-related paths from the coverage report using lcov.
+        # Displays the coverage information.
+
+    - name: Collect Code Coverage (for macOS)
+      if: matrix.os == 'macos-latest'
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: |
+        ctest -j $(sysctl -n hw.ncpu) --build-config ${{ matrix.build_type }}
+        lcov --capture --directory . --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --list coverage.info
