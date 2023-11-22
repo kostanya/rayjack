@@ -110,7 +110,7 @@ jobs:
         sudo apt-get install -y llvm llvm-dev
 
     - name: Collect Code Coverage (for Ubuntu)
-      if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
+      if: matrix.os == 'ubuntu-latest'
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: |
         ctest -j $(nproc) --build-config ${{ matrix.build_type }}
