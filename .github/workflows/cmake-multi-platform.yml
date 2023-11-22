@@ -143,7 +143,7 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: |
         ctest -j $(nproc) --build-config ${{ matrix.build_type }}
-        lcov --capture --directory "${{ github.workspace }}/build/CMakeFiles" --output-file coverage.info
+        lcov --capture --directory "${{ github.workspace }}/build/CMakeFiles/rayjack-lib.dir" --output-file coverage.info
         lcov --remove coverage.info '/usr/*' --remove coverage.info '/external/*' --output-file coverage.info
         lcov --list coverage.info
         # Uses lcov to collect coverage data and create a coverage.info file.
@@ -155,7 +155,7 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: |
         ctest -j 2 --build-config ${{ matrix.build_type }} # 2 is for number of cores or jobs
-        lcov --capture --directory  "${{ github.workspace }}/build/CMakeFiles" --output-file coverage.info
+        lcov --capture --directory  "${{ github.workspace }}/build/CMakeFiles/rayjack-lib.dir" --output-file coverage.info
         geninfo --ignore-errors inconsistent coverage.info
         lcov --remove coverage.info '/usr/*' --remove coverage.info '/external/*' --output-file coverage.info
         lcov --list coverage.info
