@@ -78,6 +78,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DCMAKE_CXX_FLAGS="--coverage" ..
         -S ${{ github.workspace }}
 
     - name: Build
@@ -117,7 +118,7 @@ jobs:
         lcov --capture --directory . --output-file coverage.info
         lcov --remove coverage.info '/usr/*' --output-file coverage.info
         # Extract coverage information for the 'rayjack' directory only
-        lcov --extract coverage.info "*/rayjack/*" --output-file coverage.info
+        lcov --extract coverage.info "*/rayjack/" --output-file coverage.info
         lcov --list coverage.info
         # Uses lcov to collect coverage data and create a coverage.info file.
         # Removes system-related paths from the coverage report using lcov.
@@ -132,5 +133,5 @@ jobs:
         geninfo --ignore-errors inconsistent coverage.info
         lcov --remove coverage.info '/usr/*' --output-file coverage.info
         # Extract coverage information for the 'rayjack' directory only
-        lcov --extract coverage.info "*/rayjack/*" --output-file coverage.info
+        lcov --extract coverage.info "*/rayjack/" --output-file coverage.info
         lcov --list coverage.info
