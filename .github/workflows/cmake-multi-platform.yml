@@ -125,7 +125,7 @@ jobs:
       if: matrix.os == 'macos-latest'
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: |
-        ctest -j $(sysctl -n hw.ncpu) --build-config ${{ matrix.build_type }}
+        ctest -j 2 --build-config ${{ matrix.build_type }} # 2 is for number of cores or jobs
         lcov --capture --directory . --output-file coverage.info
         lcov --remove coverage.info '/usr/*' --output-file coverage.info
         lcov --list coverage.info
