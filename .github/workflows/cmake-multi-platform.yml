@@ -110,7 +110,6 @@ jobs:
       run: |                                
           sudo apt-get update
           sudo apt-get install -y lcov
-          fi
         
     - name: Install LLVM tools (for Ubuntu and gcc)
       if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
