@@ -107,9 +107,9 @@ jobs:
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
         sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-14 main"
         sudo apt-get update
-        sudo apt-get install -y llvm llvm-dev llvm-tools
+        sudo apt-get install -y llvm llvm-dev
 
-    - name: Collect Code Coverage
+    - name: Collect Code Coverage (for Ubuntu)
       if: matrix.os != 'windows-latest' && matrix.c_compiler != 'cl'
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: |
@@ -120,3 +120,12 @@ jobs:
         # Uses lcov to collect coverage data and create a coverage.info file.
         # Removes system-related paths from the coverage report using lcov.
         # Displays the coverage information.
+
+    - name: Collect Code Coverage (for macOS)
+      if: matrix.os == 'macos-latest'
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: |
+        ctest -j $(sysctl -n hw.ncpu) --build-config ${{ matrix.build_type }}
+        lcov --capture --directory . --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --list coverage.info
