@@ -19,7 +19,7 @@ void Camera::render(const Hittable& world) {
         std::clog << "\rScanlines remaining: " << (imageHeight - j) << ' ' << std::flush;
         for (int i = 0; i < imageWidth; ++i) {
             color pixColor = pixelColor(i, j, world);
-            writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixColor, samplesPerPixel);
+            writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixColor);
         }
     }
 
@@ -122,5 +122,23 @@ color Camera::pixelColor(int i, int j, const Hittable& world) const {
         Ray r = getRay(i, j);
         color += rayColor(r, maxRayBounce, world);
     }
+
+    // Divide the color by the number of samples
+    if (samplesPerPixel == 0) {
+        color.r = 0;
+        color.g = 0;
+        color.b = 0;
+    } else {
+        float scale = 1.0f / samplesPerPixel;
+        color.r *= scale;
+        color.g *= scale;
+        color.b *= scale;
+    }
+
+    // Apply the linear to gamma transform
+    color.r = std::sqrt(color.r);
+    color.g = std::sqrt(color.g);
+    color.b = std::sqrt(color.b);
+
     return color;
 }
