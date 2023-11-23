@@ -15,22 +15,23 @@ void Camera::render(const Hittable& world) {
     std::unique_ptr<uint8_t[]> imageData = std::make_unique<uint8_t[]>(imageWidth * imageHeight * 3);
 
     // Render
-    for (int j = 0; j < imageHeight; ++j) {
-        std::clog << "\rScanlines remaining: " << (imageHeight - j) << ' ' << std::flush;
-        for (int i = 0; i < imageWidth; ++i) {
-            color pixelColor(0.0f, 0.0f, 0.0f);
-            for (int sample = 0; sample < samplesPerPixel; ++sample) {
-                Ray r = getRay(i, j);
-                pixelColor += rayColor(r, maxRayBounce, world);
-            }
-            writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixelColor, samplesPerPixel);
+    for (int rowIdx = 0; rowIdx < imageHeight; ++rowIdx) {
+        std::clog << "\rScanlines remaining: " << (imageHeight - rowIdx) << ' ' << std::flush;
+
+        std::vector<color> pixelColors(imageWidth);
+        for (int columnIdx = 0; columnIdx < imageWidth; ++columnIdx) {
+            // color pixColor = pixelColor(columnIdx, rowIdx, world);
+            // writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixColor);
+            pixelColors[columnIdx] = pixelColor(columnIdx, rowIdx, world);
         }
+
+        writeScanline(imageData.get(), pixelColors, 3 * rowIdx * imageWidth);
     }
 
     std::clog << "\rDone.\n";
 
     // If channel is 4, you can use alpha channel in png
-    stbi_write_png("render_result_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
+    stbi_write_png("render_result_scanline_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
                    imageWidth * m_channel);
 
     // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.
@@ -118,4 +119,31 @@ color Camera::rayColor(const Ray& r, int bounceLeft, const Hittable& world) cons
     vec3 unitDirection = glm::normalize(r.direction());
     float a = 0.5f * (unitDirection.y + 1.0f);
     return (1.0f - a) * color(1.0f, 1.0f, 1.0f) + a * color(0.5f, 0.7f, 1.0f);
+}
+
+color Camera::pixelColor(int i, int j, const Hittable& world) const {
+    color color(0.0f, 0.0f, 0.0f);
+    for (int sample = 0; sample < samplesPerPixel; ++sample) {
+        Ray r = getRay(i, j);
+        color += rayColor(r, maxRayBounce, world);
+    }
+
+    // Divide the color by the number of samples
+    if (samplesPerPixel == 0) {
+        color.r = 0;
+        color.g = 0;
+        color.b = 0;
+    } else {
+        float scale = 1.0f / samplesPerPixel;
+        color.r *= scale;
+        color.g *= scale;
+        color.b *= scale;
+    }
+
+    // Apply the linear to gamma transform
+    color.r = std::sqrt(color.r);
+    color.g = std::sqrt(color.g);
+    color.b = std::sqrt(color.b);
+
+    return color;
 }

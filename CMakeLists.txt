@@ -15,6 +15,8 @@ set (RAYJACK_LIB_SOURCES
   rayjack/detail/interval.h 
   rayjack/detail/ray.h  
   rayjack/detail/utils.h
+  rayjack/detail/render_thread.h
+  rayjack/detail/render_thread.cpp
 
   rayjack/camera.h
   rayjack/camera.cpp
