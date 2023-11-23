@@ -18,12 +18,8 @@ void Camera::render(const Hittable& world) {
     for (int j = 0; j < imageHeight; ++j) {
         std::clog << "\rScanlines remaining: " << (imageHeight - j) << ' ' << std::flush;
         for (int i = 0; i < imageWidth; ++i) {
-            color pixelColor(0.0f, 0.0f, 0.0f);
-            for (int sample = 0; sample < samplesPerPixel; ++sample) {
-                Ray r = getRay(i, j);
-                pixelColor += rayColor(r, maxRayBounce, world);
-            }
-            writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixelColor, samplesPerPixel);
+            color pixColor = pixelColor(i, j, world);
+            writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixColor, samplesPerPixel);
         }
     }
 
@@ -118,4 +114,13 @@ color Camera::rayColor(const Ray& r, int bounceLeft, const Hittable& world) cons
     vec3 unitDirection = glm::normalize(r.direction());
     float a = 0.5f * (unitDirection.y + 1.0f);
     return (1.0f - a) * color(1.0f, 1.0f, 1.0f) + a * color(0.5f, 0.7f, 1.0f);
+}
+
+color Camera::pixelColor(int i, int j, const Hittable& world) const {
+    color color(0.0f, 0.0f, 0.0f);
+    for (int sample = 0; sample < samplesPerPixel; ++sample) {
+        Ray r = getRay(i, j);
+        color += rayColor(r, maxRayBounce, world);
+    }
+    return color;
 }

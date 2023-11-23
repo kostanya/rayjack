@@ -35,4 +35,5 @@ private:
     vec3 pixelSampleSquare() const;
     point3 defocusDiskSample() const;
     color rayColor(const Ray& r, int bounceLeft, const Hittable& world) const;
+    color pixelColor(int i, int j, const Hittable& world) const;
 };
