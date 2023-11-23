@@ -9,8 +9,8 @@ int main() {
     auto ground_material = std::make_shared<Lambertian>(color(0.5, 0.5, 0.5));
     world.add(std::make_shared<Sphere>(point3(0, -1000, 0), 1000, ground_material));
 
-    for (int a = -11; a < 11; a++) {
-        for (int b = -11; b < 11; b++) {
+    for (int a = -1; a < 1; a++) {
+        for (int b = -1; b < 1; b++) {
             auto choose_mat = randomFloat();
             point3 center(a + 0.9 * randomFloat(), 0.2, b + 0.9 * randomFloat());
 
@@ -48,9 +48,9 @@ int main() {
 
     Camera cam;
 
-    cam.imageHeight = 800;
+    cam.imageHeight = 225;
     cam.imageWidth = 450;
-    cam.samplesPerPixel = 100;
+    cam.samplesPerPixel = 50;
     cam.maxRayBounce = 50;
 
     cam.verticalFieldOfView = 20.0f;
@@ -60,8 +60,6 @@ int main() {
 
     cam.defocusAngle = 0.6f;
     cam.focusDist = 10.0f;
-
-    cam.render(world);
 
     cam.render(world);
 
