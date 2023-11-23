@@ -30,7 +30,7 @@ void Camera::render(const Hittable& world) {
     std::clog << "\rDone.\n";
 
     // If channel is 4, you can use alpha channel in png
-    stbi_write_png("render_result_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
+    stbi_write_png("render_result.png", imageWidth, imageHeight, m_channel, imageData.get(),
                    imageWidth * m_channel);
 
     // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.

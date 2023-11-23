@@ -25,8 +25,8 @@ inline float randomFloat() { return distribution_0_0__1_0(generator); }
 inline float randomFloat(float min, float max) { return min + (max - min) * randomFloat(); }
 
 /*  VECTOR FUNCTIONS */
-inline vec3 randomVec3() { return vec3(randomFloat(), randomFloat(), randomFloat()); }
-inline vec3 randomVec3(float min, float max) {
+inline vec3 random3() { return vec3(randomFloat(), randomFloat(), randomFloat()); }
+inline vec3 random3(float min, float max) {
     return vec3(randomFloat(min, max), randomFloat(min, max), randomFloat(min, max));
 }
 
