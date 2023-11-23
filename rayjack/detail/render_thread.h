@@ -1,7 +1,8 @@
 #pragma once
 
+#include "camera.h"
+#include "hittable_list.h"
 #include "utils.h"
-
 #include <atomic>
 #include <mutex>
 #include <queue>
@@ -21,48 +22,66 @@ public:
         std::vector<color> data = {};
     };
 
-    // explicit RenderThread(const RenderContext &render_context);
+    explicit RenderThread(const Camera& cam);
     explicit RenderThread(RenderThread&& other);
 
-    bool run();
+    bool run(const HittableList& world);
 
     // Queue a task to turn, returns false if failed to queue
     bool addWork(const Work& work);
 
     // Try to get a result, returns false if no result was placed in `result`
-    bool retriveOutput(Output& output);
+    bool retrieveOutput(Output& output);
+
+    inline uint16_t worksCompleted() const { return m_completedWorkCount.load(); }
+
+    inline uint64_t totalPixelCount() const { return m_totalQueuedPixels.load(); }
+
+    inline uint64_t pixelsCompleted() const { return m_completedPixelsCount.load(); }
+
+    inline void requestStop() { m_stopRequested.store(true); }
+
+    inline void stopAndTryJoin() {
+        requestStop();
+        if (m_thread.joinable())
+            m_thread.join();
+    }
+
+    inline bool running() const { return m_running.load(); }
 
 private:
-    /*== Data ==*/
-    // RenderContext _r_ctx;
+    // Render Context
+    Camera m_cam;
 
     // Threading
     std::thread m_thread;
     std::atomic_bool m_running;
+    std::atomic_bool m_stopRequested;
 
     // Work queuing
-    std::mutex m_work_queue_mutex;
-    std::queue<Work> m_work_queue;
+    std::mutex m_workQueueMutex;
+    std::queue<Work> m_workQueue;
 
     // Outputs
-    std::mutex m_output_queue_mutex;
-    std::queue<Output> m_output_queue;
-    std::atomic_uint16_t m_completed_work_count;
+    std::mutex m_outputQueueMutex;
+    std::queue<Output> m_outputQueue;
+    std::atomic_uint16_t m_completedWorkCount;
 
     // Metering
-    std::atomic_uint64_t m_total_queued_pixels; // How many pixels in total will be worked on
-    std::atomic_uint64_t m_pixels_completed;    // How many pixels have been completed thus far
+    std::atomic_uint64_t m_totalQueuedPixels;    // How many pixels in total will be worked on
+    std::atomic_uint64_t m_completedPixelsCount; // How many pixels have been completed thus far
 
-    // == Thread functions
-    void threadMainLoop(); // Main loop of the thread
-    std::vector<color>
-    renderScanline(const Work& work); // Called in the main loop, where rendering actually takes place
+    // Main loop of the thread
+    void threadMainLoop(const HittableList& world);
+
+    // Called in the main loop, where rendering actually takes place
+    std::vector<color> renderScanline(const Work& work, const HittableList& world);
 
     // Attempts to get a task from the work queue
     // return `true` if a task was pulled off.  It's then placed into `task`.
     // if `false`, then one wasn't pulled off.  `task` shouldn't be modified then
-    bool getNextTask(Work& work);
+    bool getNextWork(Work& work);
 
     // Place the result of a render into a queue for the thread owner to receive
-    bool storeResult(const uint16_t scanline, const std::vector<color>& data);
+    bool storeOutput(const uint16_t scanline, const std::vector<color>& data);
 };

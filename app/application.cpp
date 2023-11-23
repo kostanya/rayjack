@@ -61,6 +61,8 @@ int main() {
     cam.defocusAngle = 0.6f;
     cam.focusDist = 10.0f;
 
+    cam.numThreads = 2;
+
     cam.render(world);
 
     return 0;
