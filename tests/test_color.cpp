@@ -6,27 +6,47 @@ using Approx = Catch::Approx;
 
 TEST_CASE("Write color to image data", "[writeColor]") {
     constexpr int ImageDataSize = 3; 
-    
     uint8_t imageData[ImageDataSize] = {0};
+
     SECTION("Test writing color for valid input") {
         color sampleColor = {1.0f, 0.25f, 0.5f}; 
-        const int samplePerPixel = 4;
         writeColor(imageData, 0, sampleColor); 
         const Interval intensity(0.000f, 0.999f);
 
-        REQUIRE(imageData[0] == Approx(256 * intensity.clamp(std::sqrt(1.0f/samplePerPixel))).margin(1));
-        REQUIRE(imageData[1] == Approx(256 * intensity.clamp(std::sqrt(0.25f/samplePerPixel))).margin(1));
-        REQUIRE(imageData[2] == Approx(256 * intensity.clamp(std::sqrt(0.5f/samplePerPixel))).margin(1));
+        REQUIRE(imageData[0] == Approx(256 * intensity.clamp(sampleColor.r)).margin(1));
+        REQUIRE(imageData[1] == Approx(256 * intensity.clamp(sampleColor.g)).margin(1));
+        REQUIRE(imageData[2] == Approx(256 * intensity.clamp(sampleColor.b)).margin(1));
     }
+}
 
-    SECTION("Test writing color for zero samples per pixel") {
-        color sampleColor = {1.0f, 1.0f, 1.0f}; // White color
-        const int samplePerPixel = 0;
-        writeColor(imageData, 0, sampleColor); 
+TEST_CASE("Write scanline ", "[writeScanline]") {
+    constexpr int ImageDataSize = 9; 
+    uint8_t imageData[ImageDataSize] = {0};
 
-        REQUIRE(imageData[0] == 0);
-        REQUIRE(imageData[1] == 0);
-        REQUIRE(imageData[2] == 0);
+    SECTION("Test writeScanline functionality") {
+        std::vector<color> testPixels = {
+            {1.0f, 0.0f, 0.0f}, // R
+            {0.0f, 1.0f, 0.0f}, // G
+            {0.0f, 0.0f, 1.0f}  // B
+        };
+
+        writeScanline(imageData, testPixels, 0);
+        const Interval intensity(0.000f, 0.999f);
+
+        // Red pixel (1.0f, 0.0f, 0.0f)
+        REQUIRE(imageData[0] == Approx(255)); 
+        REQUIRE(imageData[1] == Approx(0));   
+        REQUIRE(imageData[2] == Approx(0));   
+
+        // Green pixel (0.0f, 1.0f, 0.0f)
+        REQUIRE(imageData[3] == Approx(0));   
+        REQUIRE(imageData[4] == Approx(255));
+        REQUIRE(imageData[5] == Approx(0));   
+
+        // Blue pixel (0.0f, 0.0f, 1.0f)
+        REQUIRE(imageData[6] == Approx(0));  
+        REQUIRE(imageData[7] == Approx(0));  
+        REQUIRE(imageData[8] == Approx(255)); 
     }
 
 }
