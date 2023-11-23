@@ -15,18 +15,23 @@ void Camera::render(const Hittable& world) {
     std::unique_ptr<uint8_t[]> imageData = std::make_unique<uint8_t[]>(imageWidth * imageHeight * 3);
 
     // Render
-    for (int j = 0; j < imageHeight; ++j) {
-        std::clog << "\rScanlines remaining: " << (imageHeight - j) << ' ' << std::flush;
-        for (int i = 0; i < imageWidth; ++i) {
-            color pixColor = pixelColor(i, j, world);
-            writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixColor);
+    for (int rowIdx = 0; rowIdx < imageHeight; ++rowIdx) {
+        std::clog << "\rScanlines remaining: " << (imageHeight - rowIdx) << ' ' << std::flush;
+
+        std::vector<color> pixelColors(imageWidth);
+        for (int columnIdx = 0; columnIdx < imageWidth; ++columnIdx) {
+            // color pixColor = pixelColor(columnIdx, rowIdx, world);
+            // writeColor(imageData.get(), j * imageWidth * 3 + i * 3, pixColor);
+            pixelColors[columnIdx] = pixelColor(columnIdx, rowIdx, world);
         }
+
+        writeScanline(imageData.get(), pixelColors, 3 * rowIdx * imageWidth);
     }
 
     std::clog << "\rDone.\n";
 
     // If channel is 4, you can use alpha channel in png
-    stbi_write_png("render_result.png", imageWidth, imageHeight, m_channel, imageData.get(),
+    stbi_write_png("render_result_scanline_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
                    imageWidth * m_channel);
 
     // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.

@@ -11,10 +11,12 @@ void writeColor(uint8_t* imageData, int idx, color pixelColor) {
     imageData[idx + 2] = static_cast<uint8_t>(256 * intensity.clamp(pixelColor.b));
 }
 
-
-void writeScanline(uint8_t* imageDate, const std::vector<color> &pixels, const int rowIdx) {
-
-
-
-
+void writeScanline(uint8_t* imageData, const std::vector<color>& pixels, const int startIdx) {
+    int idx = startIdx;
+    static const Interval intensity(0.000f, 0.999f);
+    for (auto& pixelColor : pixels) {
+        imageData[idx++] = static_cast<uint8_t>(256 * intensity.clamp(pixelColor.r));
+        imageData[idx++] = static_cast<uint8_t>(256 * intensity.clamp(pixelColor.g));
+        imageData[idx++] = static_cast<uint8_t>(256 * intensity.clamp(pixelColor.b));
+    }
 }
