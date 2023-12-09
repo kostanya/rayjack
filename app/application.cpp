@@ -3,7 +3,10 @@
 #include <rayjack/material.h>
 #include <rayjack/sphere.h>
 
-int main() {
+#include <ui/mainwindow.h>
+#include <QApplication>
+
+void renderScene() {
     HittableList world;
 
     auto ground_material = std::make_shared<Lambertian>(color(0.5, 0.5, 0.5));
@@ -64,6 +67,17 @@ int main() {
     cam.numThreads = 2;
 
     cam.render(world);
+}
+
+int main(int argc, char *argv[]){ 
+
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    a.exec();
+
+    renderScene();
 
     return 0;
+
 }
