@@ -83,14 +83,11 @@ jobs:
     - name: Install Qt (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        # Download and install Qt6 for Windows
-        # Replace the link with the appropriate Qt6 installer link
-        Invoke-WebRequest -Uri https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6_installer.exe -OutFile qt6_installer.exe
+        # Download Qt installer (adjust the URL to the desired Qt version)
+        Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-4.6.1-online.exe' -OutFile qt-installer.exe
+        # Install Qt silently (adjust installer flags as needed)
         Start-Process qt6_installer.exe -Wait
         Remove-Item qt6_installer.exe
-        # Download Qt installer (adjust the URL to the desired Qt version)
-        #Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe' -OutFile qt-installer.exe
-        # Install Qt silently (adjust installer flags as needed)
         #Start-Process -FilePath ./qt-installer.exe -ArgumentList '--silent' -Wait
 
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
@@ -104,14 +101,14 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DCMAKE_PREFIX_PATH= "${{ github.workspace }}"       # Qt installation path
+        #-DCMAKE_PREFIX_PATH= "${{ github.workspace }}"       # Qt installation path
         -DCMAKE_CXX_FLAGS="-fprofile-arcs -ftest-coverage" ..
         -S ${{ github.workspace }}
 
     - name: Configure CMake for Ubuntu without gcc
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      if: matrix.os == 'ubuntu-latest' || matrix.c_compiler != 'gcc'
+      if: matrix.os == 'ubuntu-latest' && matrix.c_compiler != 'gcc'
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }} 
         -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/glm"
@@ -121,10 +118,9 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DCMAKE_PREFIX_PATH= "${{ github.workspace }}"       # Qt installation path 
+        #-DCMAKE_PREFIX_PATH= "${{ github.workspace }}"       # Qt installation path 
         -S ${{ github.workspace }}
         
-
     - name: Configure CMake for macOS
       if: matrix.os == 'macos-latest'
       run: |
@@ -151,10 +147,10 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: >
         # Set environment variables for Qt6
-        $env:Path += ";C:\Qt\6.0.4\msvc2019_64\bin"
-        $env:QTDIR = "C:\Qt\6.0.4\msvc2019_64"
-        $env:QTDIR64 = "C:\Qt\6.0.4\msvc2019_64"
-        $env:QT_PLUGIN_PATH = "C:\Qt\6.0.4\msvc2019_64\plugins"
+        $env:Path += ";C:\Qt\6.6.1\mingw_64\bin"
+        $env:QTDIR = "C:\Qt\6.6.1\mingw_64"
+        $env:QTDIR64 = "C:\Qt\6.6.1\mingw_64"
+        $env:QT_PLUGIN_PATH = "C:\Qt\6.6.1\mingw_64\plugins"
         
         cmake -B ${{ steps.strings.outputs.build-output-dir }} 
         -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/glm"
