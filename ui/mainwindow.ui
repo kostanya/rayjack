@@ -43,7 +43,7 @@
     </property>
     <property name="font">
      <font>
-      <fontweight>DemiBold</fontweight>
+      <weight>75</weight>
      </font>
     </property>
     <property name="layoutDirection">
@@ -91,7 +91,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -228,7 +228,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -255,7 +255,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -282,7 +282,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -309,7 +309,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -336,7 +336,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -363,7 +363,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -390,7 +390,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -417,7 +417,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -444,7 +444,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -471,7 +471,7 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <fontweight>DemiBold</fontweight>
+       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
