@@ -68,14 +68,12 @@ jobs:
 
     - name: Install Qt for Ubuntu
       if: matrix.os == 'ubuntu-latest'
-      env:
-        QT_QPA_PLATFORM: minimal
       run: |
         sudo apt-get update
         sudo apt-get install '^libxcb-*' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-x11-0
         wget https://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
         chmod +x qt-unified-linux-x64-online.run
-        ./qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs
+        ./qt-unified-linux-x64-online.run --platform minimal
 
     - name: Install Qt (macOS)
       if: matrix.os == 'macos-latest'
