@@ -86,10 +86,9 @@ jobs:
         # Download Qt installer (adjust the URL to the desired Qt version)
         Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe' -OutFile qt-installer.exe
         # Install Qt silently (adjust installer flags as needed)
-        Start-Process qt6_installer.exe -Wait
+        #Start-Process -FilePath ./qt-installer.exe -ArgumentList -Wait
         Remove-Item qt6_installer.exe
-        #Start-Process -FilePath ./qt-installer.exe -ArgumentList '--silent' -Wait
-
+        
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
       if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
       run: >
@@ -124,8 +123,6 @@ jobs:
     - name: Configure CMake for macOS
       if: matrix.os == 'macos-latest'
       run: >
-        # Get Qt installation path from Homebrew
-        QT_PATH=$(brew --prefix qt)
         # Run CMake with Qt installation path
         cmake -B ${{ steps.strings.outputs.build-output-dir }} 
           -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/glm"
@@ -135,7 +132,6 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DCMAKE_PREFIX_PATH="${QT_PATH}"  # Set Qt installation path
           -S ${{ github.workspace }}
 
     - name: Get QTDIR for Windows
