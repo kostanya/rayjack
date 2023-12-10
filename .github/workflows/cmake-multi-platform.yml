@@ -86,7 +86,7 @@ jobs:
         # Download Qt installer (adjust the URL to the desired Qt version)
         Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe' -OutFile qt-installer.exe
         # Install Qt silently (adjust installer flags as needed)
-        Start-Process -FilePath ./qt-installer.exe -ArgumentList -Wait
+        Start-Process -FilePath ./qt-installer.exe -Wait 
         Remove-Item -FilePath ./qt-installer.exe
         
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
@@ -132,7 +132,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DCMAKE_PREFIX_PATH= "${{ github.workspace }}"
+        -DCMAKE_PREFIX_PATH= ${{ github.workspace }}
         -S ${{ github.workspace }}
 
     - name: Get QTDIR for Windows
