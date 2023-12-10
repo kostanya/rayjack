@@ -69,7 +69,7 @@ jobs:
     - name: Install Qt for Ubuntu
       if: matrix.os == 'ubuntu-latest'
       env:
-        QT_QPA_PLATFORM: offscreen
+        QT_QPA_PLATFORM: minimal
       run: |
         sudo apt-get update
         sudo apt-get install '^libxcb-*' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-x11-0
