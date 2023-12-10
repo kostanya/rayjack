@@ -66,16 +66,27 @@ jobs:
         git submodule init
         git submodule update --recursive
 
-    - name: Install Qt (Linux/macOS)
-      if: matrix.os != 'windows-latest'
+    - name: Install Qt for Ubuntu
       run: |
         sudo apt-get update
-        sudo apt-get install -y qt6-default
+        sudo apt-get install -y software-properties-common
+        sudo add-apt-repository ppa:beineri/opt-qt-6.2.2-jammy -y
+        sudo apt-get update
+        sudo apt-get install -y qt662base qt662declarative qt662quickcontrols2 qt662svg qt662tools qt662translations
+        sudo apt-get install -y qt6-qmake qt6-default
+
+    - name: Install Qt (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install qt
 
     - name: Install Qt (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        choco install qt
+        # Download Qt installer (adjust the URL to the desired Qt version)
+        Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe' -OutFile qt-installer.exe
+        # Install Qt silently (adjust installer flags as needed)
+        Start-Process -FilePath ./qt-installer.exe -ArgumentList '--silent' -Wait
 
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
       if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
