@@ -21,7 +21,7 @@ public:
     float defocusAngle = 0.0f; // Variation angle of rays through each pixel
     float focusDist = 10.0f;   // Focus plane - camera center (lookFrom)
 
-    void render(const HittableList& world);
+    float render(const HittableList& world);
 
     color pixelColor(int i, int j, const Hittable& world) const;
 

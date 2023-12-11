@@ -10,7 +10,7 @@
 #include <iostream>
 #include <memory>
 
-void Camera::render(const HittableList& world) {
+float Camera::render(const HittableList& world) {
     initialize();
 
     // Create image data array in heap and point to it
@@ -34,7 +34,8 @@ void Camera::render(const HittableList& world) {
             const auto progress =
                 static_cast<float>(pool.pixelsCompleted()) / static_cast<float>(pool.totalPixelCount());
 
-            std::cout << "\r%" << 100.0f * progress << " completed" << std::flush;
+            //std::cout << "\r%" << 100.0f * progress << " completed" << std::flush;
+
 
             // Sleep for 50 milliseconds to give more time to the CPU to actually render
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -57,9 +58,11 @@ void Camera::render(const HittableList& world) {
 
     // If channel is 4, you can use alpha channel in png
     stbi_write_png("render_result_thread_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
-                   imageWidth * m_channel);
+                   imageWidth * m_channel);    // If CHANGE the image file name, also change in mainwindow.cpp
 
-    std::cout << "\rRender completed in " << renderTime << " seconds\n";
+    //std::cout << "\rRender completed in " << renderTime << " seconds\n";
+    return renderTime;
+
 
     // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.
     // stbi_write_jpg("jpg_test.jpg", imageWidth, imageHeight, 3, imageData.get(), 100);

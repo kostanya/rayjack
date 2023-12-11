@@ -42,9 +42,7 @@
      </sizepolicy>
     </property>
     <property name="font">
-     <font>
-      <weight>75</weight>
-     </font>
+     <font/>
     </property>
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
@@ -61,7 +59,7 @@
     <property name="checkable">
      <bool>false</bool>
     </property>
-    <widget class="QPushButton" name="Render">
+    <widget class="QPushButton" name="renderButton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -91,7 +89,6 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -101,7 +98,7 @@
       <string>Number of Threads</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="line_imageHeight">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -110,8 +107,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>integer</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
+    <widget class="QLineEdit" name="line_imageWeight">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -120,8 +120,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>integer</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_4">
+    <widget class="QLineEdit" name="line_samplePerPixel">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -130,8 +133,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>integer</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_6">
+    <widget class="QLineEdit" name="line_defocusAngle">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -140,8 +146,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_10">
+    <widget class="QLineEdit" name="line_maxRayBounce">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -150,8 +159,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>integer</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_11">
+    <widget class="QLineEdit" name="line_verticalField">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -160,8 +172,20 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string/>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="locale">
+      <locale language="Turkish" country="Turkey"/>
+     </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_9">
+    <widget class="QLineEdit" name="line_lookFrom_x">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -170,8 +194,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_8">
+    <widget class="QLineEdit" name="line_lookAt_x">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -180,8 +207,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_7">
+    <widget class="QLineEdit" name="line_viewUp_x">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -190,8 +220,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_12">
+    <widget class="QLineEdit" name="line_focusDist">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -200,8 +233,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_13">
+    <widget class="QLineEdit" name="line_numThreads">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -209,6 +245,9 @@
        <width>141</width>
        <height>26</height>
       </rect>
+     </property>
+     <property name="placeholderText">
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="label_2">
@@ -228,7 +267,6 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -255,7 +293,6 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
@@ -282,14 +319,13 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>View Up</string>
+      <string>View Up (x y z)</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_5">
@@ -309,14 +345,13 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Look At</string>
+      <string>Look At (x y z)</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_6">
@@ -325,7 +360,7 @@
        <x>10</x>
        <y>230</y>
        <width>141</width>
-       <height>20</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="font">
@@ -336,14 +371,13 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Look From</string>
+      <string>Look From (x y z)</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
@@ -363,14 +397,13 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Vertical Field of View</string>
+      <string>Vertical Field of View </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_8">
@@ -390,14 +423,13 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Max Ray Bounce</string>
+      <string>Max Ray Bounce </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_9">
@@ -417,14 +449,13 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Samples Per Pixel</string>
+      <string>Samples Per Pixel </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_10">
@@ -444,14 +475,13 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Image Weight</string>
+      <string>Image Weight </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_11">
@@ -471,17 +501,16 @@
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
-       <weight>75</weight>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Image Height</string>
+      <string>Image Height </string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_14">
+    <widget class="QLineEdit" name="line_lookFrom_y">
      <property name="geometry">
       <rect>
        <x>210</x>
@@ -493,8 +522,11 @@
      <property name="text">
       <string/>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_15">
+    <widget class="QLineEdit" name="line_lookFrom_z">
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -503,8 +535,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_16">
+    <widget class="QLineEdit" name="line_lookAt_y">
      <property name="geometry">
       <rect>
        <x>210</x>
@@ -513,8 +548,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_17">
+    <widget class="QLineEdit" name="line_lookAt_z">
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -523,8 +561,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_18">
+    <widget class="QLineEdit" name="line_viewUp_y">
      <property name="geometry">
       <rect>
        <x>210</x>
@@ -533,8 +574,11 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>float</string>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_19">
+    <widget class="QLineEdit" name="line_viewUp_z">
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -542,6 +586,9 @@
        <width>41</width>
        <height>26</height>
       </rect>
+     </property>
+     <property name="placeholderText">
+      <string>float</string>
      </property>
     </widget>
    </widget>
@@ -575,24 +622,8 @@
     <property name="text">
      <string/>
     </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>360</y>
-      <width>281</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:rgb(255, 255, 255)</string>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-    <property name="textVisible">
-     <bool>true</bool>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -608,23 +639,26 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>line_imageHeight</tabstop>
+  <tabstop>line_imageWeight</tabstop>
+  <tabstop>line_samplePerPixel</tabstop>
+  <tabstop>line_maxRayBounce</tabstop>
+  <tabstop>line_verticalField</tabstop>
+  <tabstop>line_lookFrom_x</tabstop>
+  <tabstop>line_lookFrom_y</tabstop>
+  <tabstop>line_lookFrom_z</tabstop>
+  <tabstop>line_lookAt_x</tabstop>
+  <tabstop>line_lookAt_y</tabstop>
+  <tabstop>line_lookAt_z</tabstop>
+  <tabstop>line_viewUp_x</tabstop>
+  <tabstop>line_viewUp_y</tabstop>
+  <tabstop>line_viewUp_z</tabstop>
+  <tabstop>line_defocusAngle</tabstop>
+  <tabstop>line_focusDist</tabstop>
+  <tabstop>line_numThreads</tabstop>
+  <tabstop>renderButton</tabstop>
+ </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>Render</sender>
-   <signal>clicked()</signal>
-   <receiver>progressBar</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>928</x>
-     <y>557</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>589</x>
-     <y>397</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
