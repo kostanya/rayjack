@@ -65,6 +65,8 @@ jobs:
     - name: Create build directory
       run: mkdir -p ${{ steps.strings.outputs.build-output-dir }}
 
+    - name: Check CMake version
+      run: cmake --version
 
     - name: Initialize and update submodules
       run: |
@@ -160,10 +162,10 @@ jobs:
         -DCMAKE_PREFIX_PATH= /usr/local/Cellar/qt/6.5.2
         -S ${{ github.workspace }}
 
-    - name: Get QTDIR for Windows
-      if: matrix.os == 'windows-latest'
-      run: echo "QTDIR=$QTDIR" >> $GITHUB_ENV
-      shell: bash
+    #- name: Get QTDIR for Windows
+    #  if: matrix.os == 'windows-latest'
+    #  run: echo "QTDIR=$QTDIR" >> $GITHUB_ENV
+    #  shell: bash
 
     - name: Configure CMake for Windows
       if: matrix.os == 'windows-latest'
