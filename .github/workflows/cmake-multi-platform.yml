@@ -73,15 +73,7 @@ jobs:
         lsb_release -a
         uname -a
         # Check existing installed packages
-        dpkg -l
-
-    - name: Verify permissions and execution policies (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        # Check permissions of installation files or directories
-        ls -l https://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.ru
-        # Check execution policies
-        get-executionpolicy
+        dpkg -l    
     
     - name: Install Qt for Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -105,14 +97,6 @@ jobs:
         systeminfo
       shell: powershell
 
-    - name: Verify permissions and execution policies (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        # Check permissions of installation files or directories
-        Get-Acl -Path https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe
-        # Check execution policies
-        Get-ExecutionPolicy
-
     - name: Install Qt (Windows)
       if: matrix.os == 'windows-latest'
       shell: powershell
@@ -121,6 +105,10 @@ jobs:
         $webClient = New-Object System.Net.WebClient
         $url = 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe'
         $outputFile = 'qt-installer.exe'
+        # Check permissions of installation files or directories
+        Get-Acl -Path https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe
+        # Check execution policies
+        Get-ExecutionPolicy
         $webClient.DownloadFile($url, $outputFile)
         # Run Qt installer
         Start-Process -FilePath .\qt-installer.exe -Wait
@@ -176,7 +164,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DCMAKE_PREFIX_PATH= ${{ github.workspace }}
+        #-DCMAKE_PREFIX_PATH= ${{ github.workspace }}
         -S ${{ github.workspace }}
 
     - name: Get QTDIR for Windows
@@ -200,7 +188,7 @@ jobs:
         
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.build_type }} #${{ steps.strings.outputs.build-output-dir }}
 
     - name: Test
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
