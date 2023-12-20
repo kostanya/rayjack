@@ -59,8 +59,7 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "::set-output name=build-output-dir::${{ github.workspace }}/build"
-        #echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" 
+        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" 
 
     - name: Create build directory
       run: mkdir -p ${{ steps.strings.outputs.build-output-dir }}
