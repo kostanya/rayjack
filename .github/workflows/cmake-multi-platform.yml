@@ -59,21 +59,13 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" 
+        echo "::set-output name=build-output-dir::${{ github.workspace }}/build"
+        #echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" 
 
     - name: Initialize and update submodules
       run: |
         git submodule init
-        git submodule update --recursive
-
-    - name: Check Ubuntu system information
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        # Print system information
-        lsb_release -a
-        uname -a
-        # Check existing installed packages
-        dpkg -l    
+        git submodule update --recursive 
     
     - name: Install Qt for Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -87,15 +79,7 @@ jobs:
     - name: Install Qt (macOS)
       if: matrix.os == 'macos-latest'
       run: |
-        brew install qt
-
-    - name: Check Windows system information
-      if: matrix.os == 'windows-latest'
-      run: |
-        # Print system information
-        $PSVersionTable.PSVersion
-        systeminfo
-      shell: powershell
+        brew install qt@6.6.1
 
     - name: Install Qt (Windows)
       if: matrix.os == 'windows-latest'
@@ -114,7 +98,6 @@ jobs:
         Start-Process -FilePath .\qt-installer.exe -Wait
         # Remove Qt installer after installation
         Remove-Item -Path .\qt-installer.exe
-      
         # Download Qt installer (adjust the URL to the desired Qt version)
         #Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe' -OutFile qt-installer.exe
         # Install Qt silently (adjust installer flags as needed)
@@ -164,7 +147,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        #-DCMAKE_PREFIX_PATH= ${{ github.workspace }}
+        -DCMAKE_PREFIX_PATH= /usr/local/Cellar/qt/6.6.1
         -S ${{ github.workspace }}
 
     - name: Get QTDIR for Windows
