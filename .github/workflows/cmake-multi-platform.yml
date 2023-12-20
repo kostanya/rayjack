@@ -60,12 +60,6 @@ jobs:
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" 
-
-    - name: List contents of the build directory
-      run: ls -l ${{ steps.strings.outputs.build-output-dir }}
-
-    - name: List contents of the workspace
-      run: ls -l ${{ github.workspace }}
       
     - name: Create build directory
       run: mkdir -p ${{ steps.strings.outputs.build-output-dir }}
