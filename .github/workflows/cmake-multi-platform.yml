@@ -66,6 +66,23 @@ jobs:
         git submodule init
         git submodule update --recursive
 
+    - name: Check Ubuntu system information
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        # Print system information
+        lsb_release -a
+        uname -a
+        # Check existing installed packages
+        dpkg -l
+
+    - name: Verify permissions and execution policies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        # Check permissions of installation files or directories
+        ls -l /path/to/installer
+        # Check execution policies
+        get-executionpolicy
+    
     - name: Install Qt for Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -79,6 +96,21 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         brew install qt
+
+    - name: Check Windows system information
+      if: matrix.os == 'windows-latest'
+      run: |
+        # Print system information
+        ver
+        systeminfo
+
+    - name: Verify permissions and execution policies (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        # Check permissions of installation files or directories
+        Get-Acl -Path C:\Path\To\Installer
+        # Check execution policies
+        Get-ExecutionPolicy
 
     - name: Install Qt (Windows)
       if: matrix.os == 'windows-latest'
@@ -101,7 +133,9 @@ jobs:
         #Remove-Item -FilePath ./qt-installer.exe
 
     - name: Create Build Directory
-      run: mkdir -p ${{ github.workspace }}/build
+      run: |
+        rm -rf ${{ github.workspace }}/build  # clear cmake cache
+        mkdir -p ${{ github.workspace }}/build
       shell: bash
       
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
@@ -138,9 +172,8 @@ jobs:
     - name: Configure CMake for macOS
       if: matrix.os == 'macos-latest'
       run: >
-        rm -rf ${{ github.workspace }}/build  # clear cmake cache
         # Run CMake with Qt installation path
-        cmake -B ${{ steps.strings.outputs.build-output-dir }} 
+        cmake -B ${{ github.workspace }}/build #${{ steps.strings.outputs.build-output-dir }} 
         -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/glm"
         -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/Catch2"
         -DCMAKE_C_STANDARD=11
