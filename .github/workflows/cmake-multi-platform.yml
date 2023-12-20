@@ -82,12 +82,23 @@ jobs:
 
     - name: Install Qt (Windows)
       if: matrix.os == 'windows-latest'
+      shell: powershell
       run: |
+        # Download Qt installer using PowerShell
+        $webClient = New-Object System.Net.WebClient
+        $url = 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe'
+        $outputFile = 'qt-installer.exe'
+        $webClient.DownloadFile($url, $outputFile)
+        # Run Qt installer
+        Start-Process -FilePath .\qt-installer.exe -Wait
+        # Remove Qt installer after installation
+        Remove-Item -Path .\qt-installer.exe
+      
         # Download Qt installer (adjust the URL to the desired Qt version)
-        Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe' -OutFile qt-installer.exe
+        #Invoke-WebRequest -Uri 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe' -OutFile qt-installer.exe
         # Install Qt silently (adjust installer flags as needed)
-        Start-Process -FilePath ./qt-installer.exe -Wait 
-        Remove-Item -FilePath ./qt-installer.exe
+        #Start-Process -FilePath ./qt-installer.exe -Wait 
+        #Remove-Item -FilePath ./qt-installer.exe
         
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
       if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
