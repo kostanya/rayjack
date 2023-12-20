@@ -79,7 +79,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         # Check permissions of installation files or directories
-        ls -l /path/to/installer
+        ls -l https://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.ru
         # Check execution policies
         get-executionpolicy
     
@@ -101,14 +101,15 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         # Print system information
-        ver
+        $PSVersionTable.PSVersion
         systeminfo
+      shell: powershell
 
     - name: Verify permissions and execution policies (Windows)
       if: matrix.os == 'windows-latest'
       run: |
         # Check permissions of installation files or directories
-        Get-Acl -Path C:\Path\To\Installer
+        Get-Acl -Path https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe
         # Check execution policies
         Get-ExecutionPolicy
 
@@ -132,12 +133,6 @@ jobs:
         #Start-Process -FilePath ./qt-installer.exe -Wait 
         #Remove-Item -FilePath ./qt-installer.exe
 
-    - name: Create Build Directory
-      run: |
-        rm -rf ${{ github.workspace }}/build  # clear cmake cache
-        mkdir -p ${{ github.workspace }}/build
-      shell: bash
-      
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
       if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
       run: >
