@@ -138,6 +138,7 @@ jobs:
     - name: Configure CMake for macOS
       if: matrix.os == 'macos-latest'
       run: >
+        rm -rf ${{ github.workspace }}/build  # clear cmake cache
         # Run CMake with Qt installation path
         cmake -B ${{ steps.strings.outputs.build-output-dir }} 
         -DGLM_INCLUDE_DIR="${{ github.workspace }}/external/glm"
