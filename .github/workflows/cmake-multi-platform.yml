@@ -99,7 +99,11 @@ jobs:
         # Install Qt silently (adjust installer flags as needed)
         #Start-Process -FilePath ./qt-installer.exe -Wait 
         #Remove-Item -FilePath ./qt-installer.exe
-        
+
+    - name: Create Build Directory
+      run: mkdir -p ${{ github.workspace }}/build
+      shell: bash
+      
     - name: Configure CMake for Ubuntu and Gcc (with code coverage flags)
       if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
       run: >
