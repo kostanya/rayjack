@@ -105,11 +105,11 @@ jobs:
         $webClient = New-Object System.Net.WebClient
         $url = 'https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe'
         $outputFile = 'qt-installer.exe'
-        # Check permissions of installation files or directories
-        Get-Acl -Path .\qt-installer.exe
         # Check execution policies
         Get-ExecutionPolicy
         $webClient.DownloadFile($url, $outputFile)
+        # Check permissions of installation files or directories
+        #Get-Acl -Path .\qt-installer.exe
         # Run Qt installer
         Start-Process -FilePath .\qt-installer.exe -Wait
         # Remove Qt installer after installation
