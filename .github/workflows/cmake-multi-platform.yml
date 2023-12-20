@@ -174,11 +174,11 @@ jobs:
         -DCMAKE_PREFIX_PATH= "C:\Qt\6.6.1\mingw_64"  
         -S ${{ github.workspace }}
 
-    - name: List contents of the directory
+    - name: List contents of the build directory
       run: ls -l ${{ steps.strings.outputs.build-output-dir }}
 
-    - name: Debug information
-      run: echo "GitHub Workspace:${{ github.workspace }}"
+    - name: List contents of the workspace
+      run: ls -l ${{ github.workspace }}
       
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
