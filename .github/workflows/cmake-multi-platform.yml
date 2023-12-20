@@ -60,6 +60,7 @@ jobs:
       shell: bash
       run: |
         echo "::set-output name=build-output-dir::${{ github.workspace }}/build"
+        mkdir -p ${{ steps.strings.outputs.build-output-dir }}
         #echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT" 
 
     - name: Initialize and update submodules
