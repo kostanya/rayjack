@@ -104,7 +104,7 @@ jobs:
         Get-Acl -Path .\qt-installer.exe
         echo "HEYY"
         # Run Qt installer
-        Start-Process -FilePath .\qt-installer.exe -Wait --accept-licenses --default-answer --confirm-command
+        Start-Process -FilePath .\qt-installer.exe -Wait --accept-licenses --confirm-command
         echo "O LA LA"
         # Remove Qt installer after installation
         Remove-Item -Path .\qt-installer.exe
