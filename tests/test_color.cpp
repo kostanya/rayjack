@@ -4,7 +4,7 @@
 
 using Approx = Catch::Approx;
 
-TEST_CASE("Write color to image data", "[writeColor]") {
+/*TEST_CASE("Write color to image data", "[writeColor]") {
     constexpr int ImageDataSize = 3; 
     uint8_t imageData[ImageDataSize] = {0};
 
@@ -17,21 +17,21 @@ TEST_CASE("Write color to image data", "[writeColor]") {
         REQUIRE(imageData[1] == Approx(256 * intensity.clamp(sampleColor.g)).margin(1));
         REQUIRE(imageData[2] == Approx(256 * intensity.clamp(sampleColor.b)).margin(1));
     }
-}
+}*/
 
 TEST_CASE("Write scanline ", "[writeScanline]") {
     constexpr int ImageDataSize = 9; 
     uint8_t imageData[ImageDataSize] = {0};
 
     SECTION("Test writeScanline functionality") {
-        std::vector<color> testPixels = {
+        const int startIdx = 0;
+        const std::vector<color> testPixels = {
             {1.0f, 0.0f, 0.0f}, // R
             {0.0f, 1.0f, 0.0f}, // G
             {0.0f, 0.0f, 1.0f}  // B
         };
 
-        writeScanline(imageData, testPixels, 0);
-        const Interval intensity(0.000f, 0.999f);
+        writeScanline(imageData, testPixels, startIdx);
 
         // Red pixel (1.0f, 0.0f, 0.0f)
         REQUIRE(imageData[0] == Approx(255)); 

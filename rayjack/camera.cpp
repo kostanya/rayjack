@@ -58,7 +58,7 @@ float Camera::render(const HittableList& world) {
 
     // If channel is 4, you can use alpha channel in png
     stbi_write_png("render_result_thread_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
-                   imageWidth * m_channel);    // If CHANGE the image file name, also change in mainwindow.cpp
+                   imageWidth * m_channel);    // If CHANGE the image file name, also change in mainwindow.cpp and test_camera.cpp
 
     //std::cout << "\rRender completed in " << renderTime << " seconds\n";
     return renderTime;

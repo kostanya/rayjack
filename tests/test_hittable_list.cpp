@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_all.hpp>
-#include "hittable_list.cpp"
+#include "hittable_list.h"
 #include "sphere.h"
 
 
@@ -34,64 +34,61 @@ TEST_CASE("HittableList class tests", "[HittableList]") {
 
 
 TEST_CASE("HittableList hit method tests", "[HittableList::hit]") {
-    Ray r({1, 2, 3}, {4, 5, 6});
     Interval rayT(0.001, infinity);
     HitRecord rec;
-
     auto testMaterial = std::make_shared<Lambertian>(color (1.0, 1.0, 1.0));
 
     SECTION("When there are no objects in HittableList, hitResult should return false") {
         HittableList hittableList;
+        Ray r({1, 2, 3}, {4, 5, 6});
 
         bool hitResult = hittableList.hit(r, rayT, rec);
         REQUIRE(hitResult == false);
     }
 
     SECTION("Ray hits one object in HittableList") {
+        Ray r({0, 0, -5}, {0, 0, 1}); // towards the positive z-axis
         HittableList hittableList;
         std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 0), 2.0f, testMaterial);
+        std::shared_ptr<Sphere> hittable2 = std::make_shared<Sphere>(point3(5, 5, 5), 2.0f, testMaterial);
+
         hittableList.add(hittable1);
+        hittableList.add(hittable2);
 
         bool hitResult = hittableList.hit(r, rayT, rec);
-        //REQUIRE(hitResult == true);
+        REQUIRE(hitResult == true);
     }
 
     SECTION("Ray misses all objects in HittableList") {
+        Ray r({0, 0, 0}, {0, 1, 0}); // The ray direction is towards the positive y-axis
         HittableList hittableList;
-        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 0), 2.0f, testMaterial);
-        std::shared_ptr<Sphere> hittable2 = std::make_shared<Sphere>(point3(4, 0, 0), 2.0f, testMaterial);
-        
+        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 5), 2.0f, testMaterial);
+        std::shared_ptr<Sphere> hittable2 = std::make_shared<Sphere>(point3(0, 0, 10), 2.0f, testMaterial);
+
         hittableList.add(hittable1);
         hittableList.add(hittable2);
 
-        Ray r({0, 0, -10.0}, {0, 0, -12});
-        Interval rayT(2000.0, 2001.0);
         bool hitResult = hittableList.hit(r, rayT, rec);
-        //REQUIRE(hitResult == false);
+        REQUIRE(hitResult == false);
     }
 
     SECTION("Ray hits multiple objects in HittableList") {
-        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 0), 2.0f, testMaterial);
-        std::shared_ptr<Sphere> hittable2 = std::make_shared<Sphere>(point3(4, 0, 0), 2.0f, testMaterial);
-        
-        // Set up the scenario where the ray hits both objects
-        // Modify the ray, rayT, or positions of objects to ensure they intersect
-        // ...
+        Ray r({0, 0, 0}, {0, 0, -1}); // towards the negative z-axis
+        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, -5), 2.0f, testMaterial);
+        std::shared_ptr<Sphere> hittable2 = std::make_shared<Sphere>(point3(0, 0, -15), 2.0f, testMaterial);
 
         HittableList hittableList;
         hittableList.add(hittable1);
         hittableList.add(hittable2);
 
         bool hitResult = hittableList.hit(r, rayT, rec);
-        //REQUIRE(hitResult == true);
+        REQUIRE(hitResult == true);
     }
 
      SECTION("Ray hits closest object first") {
-        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 0), 2.0f, testMaterial);
-        std::shared_ptr<Sphere> hittable2 = std::make_shared<Sphere>(point3(4, 0, 0), 2.0f, testMaterial);
-        
-        // Adjust ray parameters to ensure hittableObject1 is closer to the ray's origin than hittableObject2
-        // ...
+        Ray r({0, 0, 0}, {0, 0, -1}); 
+        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, -5), 2.0f, testMaterial);
+        std::shared_ptr<Sphere> hittable2 = std::make_shared<Sphere>(point3(0, 0, -15), 4.0f, testMaterial);
 
         HittableList hittableList;
         hittableList.add(hittable1);
@@ -99,40 +96,29 @@ TEST_CASE("HittableList hit method tests", "[HittableList::hit]") {
 
         bool hitResult = hittableList.hit(r, rayT, rec);
 
-        // Assuming the ray hits hittableObject1 first
-        //REQUIRE(hitResult == true);
-        // Add assertions to ensure that hittableObject1 was the closest hit
-        // ...
+        REQUIRE(hitResult == true);
     }
 
     SECTION("Ray hits object with negative t values") {
-        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 0), 2.0f, testMaterial);
-        
-        // Set up the scenario where the ray hits the object but the t values are negative
-        // ...
-
+        Ray r({0, 0, 0}, {0, 0, -1});  
+        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, -5), 2.0f, testMaterial);
         HittableList hittableList(hittable1);
 
         bool hitResult = hittableList.hit(r, rayT, rec);
 
-        // Assuming the ray hits the object but the t values are negative
-        //REQUIRE(hitResult == true);
-        // Add assertions related to the negative t values if required
+        REQUIRE(hitResult == true);
     }
 
     SECTION("Ray hits object with closestSoFar starting at max rayT") {
-        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 0), 2.0f, testMaterial);
-        
-        // Set up the scenario where the ray hits the object, altering closestSoFar from its initial value
-        // ...
+        Interval rayT(5.0f, 15.0f); // the sphere is located within this interval
+        Ray r({0, 0, 0}, {0, 0, 1});  // the ray direction is towards the positive z-axis
 
+        std::shared_ptr<Sphere> hittable1 = std::make_shared<Sphere>(point3(0, 0, 10), 2.0f, testMaterial);
         HittableList hittableList(hittable1);
 
         bool hitResult = hittableList.hit(r, rayT, rec);
 
-        // Assuming the ray hits the object and alters closestSoFar
-        //REQUIRE(hitResult == true);
-        // Add assertions related to the altered closestSoFar value if required
+        REQUIRE(hitResult == true);
     }
 
 }
