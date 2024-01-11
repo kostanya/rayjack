@@ -2,18 +2,69 @@
 #include "color.h"
 #include "hit_record.h"
 #include "material.h"
+#include "render_thread_pool.h"
 
 #include "stb_image_write.h"
 
+#include <future>
 #include <iostream>
 #include <memory>
 
-void Camera::render(const Hittable& world) {
+void Camera::render(const HittableList& world) {
     initialize();
 
     // Create image data array in heap and point to it
     std::unique_ptr<uint8_t[]> imageData = std::make_unique<uint8_t[]>(imageWidth * imageHeight * 3);
 
+    float renderTime = 0;
+
+    // Setup the task to render
+    std::future<void> task = std::async(std::launch::async, [this, &imageData, &world, &renderTime] {
+        const auto startTime = std::chrono::system_clock::now();
+
+        // Create the thread pool (and renderer)
+        RenderThreadPool pool(*this, this->numThreads);
+        pool.setupRender();
+
+        // Do the render
+        pool.startRender(world);
+        do {
+
+            // Accumulate the progress
+            const auto progress =
+                static_cast<float>(pool.pixelsCompleted()) / static_cast<float>(pool.totalPixelCount());
+
+            std::cout << "\r%" << 100.0f * progress << " completed" << std::flush;
+
+            // Sleep for 50 milliseconds to give more time to the CPU to actually render
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        } while (!pool.renderCompleted());
+
+        // Cleanly terminate threads
+        pool.terminateThreads();
+
+        const auto endTime = std::chrono::system_clock::now();
+
+        renderTime = static_cast<float>(
+                         std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count()) /
+                     1000.0f;
+
+        // Grab the render and save it
+        pool.retrieveRender(imageData.get());
+    });
+
+    task.wait();
+
+    // If channel is 4, you can use alpha channel in png
+    stbi_write_png("render_result_thread_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
+                   imageWidth * m_channel);
+
+    std::cout << "\rRender completed in " << renderTime << " seconds\n";
+
+    // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.
+    // stbi_write_jpg("jpg_test.jpg", imageWidth, imageHeight, 3, imageData.get(), 100);
+
+    /*
     // Render
     for (int rowIdx = 0; rowIdx < imageHeight; ++rowIdx) {
         std::clog << "\rScanlines remaining: " << (imageHeight - rowIdx) << ' ' << std::flush;
@@ -30,12 +81,7 @@ void Camera::render(const Hittable& world) {
 
     std::clog << "\rDone.\n";
 
-    // If channel is 4, you can use alpha channel in png
-    stbi_write_png("render_result_scanline_deneme.png", imageWidth, imageHeight, m_channel, imageData.get(),
-                   imageWidth * m_channel);
-
-    // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.
-    // stbi_write_jpg("jpg_test.jpg", imageWidth, imageHeight, 3, imageData.get(), 100);
+    */
 }
 
 void Camera::initialize() {

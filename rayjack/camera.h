@@ -1,7 +1,8 @@
 #pragma once
 
-#include "hittable.h"
+#include "hittable_list.h"
 #include "utils.h"
+#include <thread>
 
 class Camera {
 public:
@@ -9,6 +10,7 @@ public:
     int imageHeight = 100;     // Rendered image height in pixels
     int samplesPerPixel = 100; // Count of random samples for each pixel
     int maxRayBounce = 10;     // Max number of ray bounces into scene
+    uint32_t numThreads = std::thread::hardware_concurrency();
 
     float verticalFieldOfView = 90;              // Vertical view angle (field of view)
     point3 lookFrom = point3(0.0f, 0.0f, -1.0f); // Point camera is looking from
@@ -19,7 +21,9 @@ public:
     float defocusAngle = 0.0f; // Variation angle of rays through each pixel
     float focusDist = 10.0f;   // Focus plane - camera center (lookFrom)
 
-    void render(const Hittable& world);
+    void render(const HittableList& world);
+
+    color pixelColor(int i, int j, const Hittable& world) const;
 
 private:
     const int m_channel = 3; // Number of channels to be rendered
@@ -35,5 +39,4 @@ private:
     vec3 pixelSampleSquare() const;
     point3 defocusDiskSample() const;
     color rayColor(const Ray& r, int bounceLeft, const Hittable& world) const;
-    color pixelColor(int i, int j, const Hittable& world) const;
 };
