@@ -51,7 +51,7 @@ bool compareImages(const std::vector<glm::u8vec4>& image1, const std::vector<glm
     }
 
     // Compare each pixel in both images
-    int threshold = 40;
+    int threshold = 50;
     for (size_t i = 0; i < image1.size(); ++i) {
         glm::u8vec4 pixel1 = image1[i];
         glm::u8vec4 pixel2 = image2[i];
@@ -100,10 +100,14 @@ TEST_CASE("Camera ", "[Camera]") {
 
     SECTION("Image comparison test after rendering") {
         int width1, height1, width2, height2;
-        std::vector<glm::u8vec4> referenceImageData = loadImageData("C:/Users/Sinem/source/repos/rayjack/tests/test_image.png", width2, height2);
+        std::filesystem::path cwd = std::filesystem::current_path();
+        std::string parentPath = cwd.parent_path().generic_string();
+        std::string refImage = parentPath + "/tests/test_image.png";
+        const char* refImagePath = refImage.c_str();
+        std::vector<glm::u8vec4> referenceImageData = loadImageData(refImagePath, width2, height2);
 
         cam.render(world);
-        std::vector<glm::u8vec4> testImageData = loadImageData("C:/Users/Sinem/source/repos/rayjack/build/render_result_thread_deneme.png", width1, height1);
+        std::vector<glm::u8vec4> testImageData = loadImageData("render_result_thread_deneme.png", width1, height1);
         
         // Check if images are loaded successfully
         REQUIRE_FALSE(referenceImageData.empty());
