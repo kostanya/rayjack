@@ -4,10 +4,12 @@
 #include <glm/gtc/type_ptr.hpp> // For glm::value_ptr
 #include "stb_image.h"
 #include <vector>
+#include <iostream>
+#include <filesystem>
+#include <string>
 #include "camera.h"
 #include "hittable_list.h"
 #include "sphere.h"
-#include <iostream>
 
 // Load image data into a vector
 std::vector<glm::u8vec4> loadImageData(const char* imagePath, int& width, int& height) {
