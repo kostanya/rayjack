@@ -48,8 +48,6 @@ TEST_CASE("Refraction of a vector") {
     vec3 n = vec3(0.0f, 1.0f, 0.0f);
     float refraction_ratio = 1.5f;
     vec3 refracted = refract(uv, n, refraction_ratio);
-    
-    float cos_theta = glm::dot(-uv, n);
     vec3 refracted_unit = glm::normalize(refracted);
 
     float sin_theta = glm::length(glm::cross(uv, n));
@@ -58,6 +56,4 @@ TEST_CASE("Refraction of a vector") {
     REQUIRE(glm::length(refracted) > 0.0f); 
     REQUIRE(sin_theta * refraction_ratio == Approx(expected_sin_theta)); // Snell's Law
 
-    //REQUIRE(Approx(cos_theta) == Approx(glm::dot(refracted_unit, n)).epsilon(0.0001)); // Ensure the cosines are consistent
-    //REQUIRE(Approx(cos_theta).margin(0.001) == glm::dot(refracted_unit, n));
 }

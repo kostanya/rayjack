@@ -10,7 +10,7 @@
 #include <iostream>
 #include <memory>
 
-void Camera::render(const HittableList& world) {
+float Camera::render(const HittableList& world) {
     initialize();
 
     // Create image data array in heap and point to it
@@ -60,6 +60,7 @@ void Camera::render(const HittableList& world) {
                    imageWidth * m_channel);
 
     std::cout << "\rRender completed in " << renderTime << " seconds\n";
+    return renderTime;
 
     // You have to use 3 comp for complete jpg file. If not, the image will be grayscale or nothing.
     // stbi_write_jpg("jpg_test.jpg", imageWidth, imageHeight, 3, imageData.get(), 100);

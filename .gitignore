@@ -48,4 +48,4 @@ out/
 /.vscode
 /CMakeSettings.json
 .DS_Store
-*.png
+#*.png

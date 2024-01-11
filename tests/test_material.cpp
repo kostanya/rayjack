@@ -2,6 +2,14 @@
 #include <catch2/catch_all.hpp>
 #include "material.h"
 
+/*class DielectricMock : public Dielectric {
+public:
+    friend float Dielectric::reflectance(float cosine, float refIdx);
+
+    DielectricMock(float refractiveIndex) : Dielectric(refractiveIndex) {}
+};*/
+
+
 TEST_CASE("Material scatter method tests", "[Material]") {
     color albedo(0.8, 0.6, 0.4);
 
@@ -59,5 +67,17 @@ TEST_CASE("Material scatter method tests", "[Material]") {
         float dotProduct = glm::dot(refractedDirection, rec.normal);
         REQUIRE(dotProduct < 0.0f);
     }
+
+    /*SECTION("Dielectric material reflectance behavior") {
+        float refractiveIndex = 1.5; 
+        DielectricMock dielectric(1.5f);
+
+        float result1 = dielectric.reflectance(0.5f, 1.0f);
+        float result2 = dielectric.reflectance(0.7f, 1.5f);
+
+        REQUIRE(result1 == Approx(expectedResult1)); 
+        REQUIRE(result2 == Approx(expectedResult2)); 
+
+    }*/
 
 }
