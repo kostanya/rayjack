@@ -4,10 +4,12 @@
 #include <glm/gtc/type_ptr.hpp> // For glm::value_ptr
 #include "stb_image.h"
 #include <vector>
+#include <iostream>
+#include <filesystem>
+#include <string>
 #include "camera.h"
 #include "hittable_list.h"
 #include "sphere.h"
-#include <iostream>
 
 // Load image data into a vector
 std::vector<glm::u8vec4> loadImageData(const char* imagePath, int& width, int& height) {
@@ -100,10 +102,14 @@ TEST_CASE("Camera ", "[Camera]") {
 
     SECTION("Image comparison test after rendering") {
         int width1, height1, width2, height2;
-        std::vector<glm::u8vec4> referenceImageData = loadImageData("C:/Users/Sinem/source/repos/rayjack/tests/test_image.png", width2, height2);
+        std::filesystem::path cwd = std::filesystem::current_path();
+        std::string parentPath = cwd.parent_path().generic_string();
+        std::string refImage = parentPath + "/tests/test_image.png";
+        const char* refImagePath = refImage.c_str();
+        std::vector<glm::u8vec4> referenceImageData = loadImageData(refImagePath, width2, height2);
 
         cam.render(world);
-        std::vector<glm::u8vec4> testImageData = loadImageData("C:/Users/Sinem/source/repos/rayjack/build/render_result_thread_deneme.png", width1, height1);
+        std::vector<glm::u8vec4> testImageData = loadImageData("render_result_thread_deneme.png", width1, height1);
         
         // Check if images are loaded successfully
         REQUIRE_FALSE(referenceImageData.empty());
