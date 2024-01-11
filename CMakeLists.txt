@@ -31,9 +31,7 @@ set (RAYJACK_LIB_SOURCES
   rayjack/sphere.cpp  
 
   external/stb_image_write.h
-  external/stb_image_write.cpp
-  external/stb_image.h
-  external/stb_image.cpp)
+  external/stb_image_write.cpp)
 
 add_library(rayjack-lib STATIC ${RAYJACK_LIB_SOURCES})
 
@@ -54,7 +52,9 @@ set(RAYJACK_TEST_SOURCES
     tests/test_color.cpp
     tests/test_ray.cpp
     tests/test-main.cpp
-)
+
+    external/stb_image.h
+    external/stb_image.cpp)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2)
 add_executable(rayjack-test ${RAYJACK_TEST_SOURCES})
