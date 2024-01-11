@@ -34,7 +34,7 @@ void MainWindow::renderClicked(){
     HittableList world = createWorld();
 
     int imgHeight = ui->line_imageHeight->text().toInt();
-    int imgWeight = ui->line_imageWeight->text().toInt();
+    int imgWidth = ui->line_imageWidth->text().toInt();
     int samplePerPixel = ui->line_samplePerPixel->text().toInt();
     int maxRayBounce = ui->line_maxRayBounce->text().toInt();
     float verticalFieldOfView = ui->line_verticalField->text().toFloat();
@@ -54,7 +54,7 @@ void MainWindow::renderClicked(){
     Camera cam;
 
     cam.imageHeight = imgHeight;
-    cam.imageWidth = imgWeight;
+    cam.imageWidth = imgWidth;
     cam.samplesPerPixel = samplePerPixel;
     cam.maxRayBounce = maxRayBounce;
     cam.verticalFieldOfView = verticalFieldOfView;
@@ -80,7 +80,7 @@ void MainWindow::renderClicked(){
 
 HittableList MainWindow::createWorld() {
     HittableList world;
-
+    
     auto ground_material = std::make_shared<Lambertian>(color(0.5, 0.5, 0.5));
     world.add(std::make_shared<Sphere>(point3(0, -1000, 0), 1000, ground_material));
 
@@ -120,7 +120,7 @@ HittableList MainWindow::createWorld() {
 
     auto material3 = std::make_shared<Metal>(color(0.7, 0.6, 0.5), 0.0);
     world.add(std::make_shared<Sphere>(point3(4, 1, 0), 1.0, material3));
-
+    
     return world;
 
 }

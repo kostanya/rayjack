@@ -111,7 +111,7 @@
       <string>integer</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="line_imageWeight">
+    <widget class="QLineEdit" name="line_imageWidth">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -481,7 +481,7 @@
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Image Weight </string>
+      <string>Image Width </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_11">
@@ -641,7 +641,7 @@
  </widget>
  <tabstops>
   <tabstop>line_imageHeight</tabstop>
-  <tabstop>line_imageWeight</tabstop>
+  <tabstop>line_imageWidth</tabstop>
   <tabstop>line_samplePerPixel</tabstop>
   <tabstop>line_maxRayBounce</tabstop>
   <tabstop>line_verticalField</tabstop>
