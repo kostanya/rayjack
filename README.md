@@ -20,3 +20,10 @@ Raytracing is simply a reverse simulation of the real-life image formation mecha
 ### How to build ?
 We wrote the project as a cross-platfrom cross-compiler project using C++17 and you can easily build it using CMake after cloning the project to your locale. Just remember to clone it with `--recurse-submodules` command because we manage external libraries (i.e glm) with submodules. After building and compiling the project, you will have an executable called `rayjack-app` and a static library called `rayjack-lib`. Actually `rayjack-app` is just a simple application that uses `rayjack-lib`. You can run `rayjack-app` to see the sample scene and render different scenes by playing with the source code (application.cpp). Or you can link `rayjack-lib` directly to your own project and use it. 
 
+### Branches
+- main : includes backend of the rayjack.
+- test : includes test cases to calculate code coverage and continuous integration.
+- feature/ui : includes tests with user interface. (frontend)
+
+### Final Report
+[CMPE_492_Furkan_Keskin_Sinem_Koçoğlu_Final_Report.pdf](https://github.com/kostanya/rayjack/files/13929040/CMPE_492_Final_Report.pdf)
